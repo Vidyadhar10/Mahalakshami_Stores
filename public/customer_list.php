@@ -26,6 +26,8 @@
     $CustomerActiveTextColor = 'text-gray-800';
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
+    $ActiveSettingsBar = '';
+    $SettingsActiveTextColor = '';
     include './php/header-asidebar.php';
     ?>
 
@@ -116,9 +118,6 @@
                         </button>
                       </td>
                     </tr>
-
-
-
                   </tbody>
                 </table>
               </div>

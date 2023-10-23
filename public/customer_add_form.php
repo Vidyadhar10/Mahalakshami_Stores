@@ -28,6 +28,9 @@
 
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
+
+    $ActiveSettingsBar = '';
+    $SettingsActiveTextColor = '';
     include './php/header-asidebar.php';
     ?>
 
@@ -45,50 +48,88 @@
             <!-- Name -->
             <div class="flex flex-wrap -mx-4">
               <!-- Name -->
-              <div class="w-full md:w-1/2 px-4">
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Name <span class="text-red-600 font-bold">*</span></span>
-                  <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe" required />
-                </label>
+              <div class="w-full md:w-1/2 ">
+                <div class="flex flex-wrap -mx-4">
+                  <!-- Name -->
+                  <div class="w-full md:w-1/2 px-4">
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400">Name <span class="text-red-600 font-bold">*</span></span>
+                      <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe" required />
+                    </label>
+                  </div>
+                  <div class="w-full md:w-1/2 px-4">
+                    <!-- Email -->
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400">Email
+                        <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" type="email" placeholder="jane@example.com" />
+                    </label>
+                  </div>
+                </div>
               </div>
 
-              <!-- Email -->
-              <div class="w-full md:w-1/2 px-4">
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Email
-                    <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" type="email" placeholder="jane@example.com" />
+
+              <div class="w-full md:w-1/2">
+                <div class="flex flex-wrap -mx-4">
+                  <!-- Mobile Number -->
+                  <div class="w-full md:w-1/2 px-4">
+                    <label class="block  text-sm">
+                      <span class="text-gray-700 dark:text-gray-400">Mobile Number<span class="text-red-600 font-bold">*</span></span>
+                      <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123-456-7890" required />
+                    </label>
+                  </div>
+                  <div class="w-full md:w-1/2 px-4">
+                    <!-- Designation -->
+                    <label class="block  text-sm">
+                      <span class="text-gray-700 dark:text-gray-400">Designation <span class="text-red-600 font-bold">*</span></span>
+                      <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Designer" required />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="flex flex-wrap -mx-4">
+              <div class="w-full md:w-1/2 ">
+                <div class="flex flex-wrap -mx-4">
+                  <div class="w-full md:w-1/2 px-4">
+
+                    <!-- Account Number -->
+                    <label class="block mt-4 text-sm">
+                      <span class="text-gray-700 dark:text-gray-400">Account Number <span class="text-red-600 font-bold">*</span></span>
+                      <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123" required />
+                    </label>
+                  </div>
+                  <div class="w-full md:w-1/2 px-4">
+                    <label class="block mt-4 text-sm">
+                      <span class="text-gray-700 dark:text-gray-400">
+                        Select Room Number
+                      </span>
+                      <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 ">
+                <label class="block mt-4 px-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">Address <span class="text-red-600 font-bold">*</span></span>
+                  <textarea rows="1" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter Address"></textarea>
                 </label>
               </div>
             </div>
 
-            <div class="flex flex-wrap -mx-4">
-              <!-- Mobile Number -->
-              <div class="w-full md:w-1/2 px-4">
-                <label class="block mt-4 text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Mobile Number <span class="text-red-600 font-bold">*</span></span>
-                  <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123-456-7890" required />
-                </label>
-              </div>
 
-              <div class="w-full md:w-1/2 px-4">
-                <!-- Designation -->
-                <label class="block mt-4 text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Designation <span class="text-red-600 font-bold">*</span></span>
-                  <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Designer" required />
-                </label>
-              </div>
-            </div>
+            <!-- Address -->
 
 
             <div class="flex flex-wrap -mx-4">
-              <div class="w-full md:w-1/2 px-4">
-                <!-- ID Number -->
-                <label class="block mt-4 text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">ID Number <span class="text-red-600 font-bold">*</span></span>
-                  <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="#123" required />
-                </label>
-              </div>
-
               <div class="w-full md:w-1/2 px-4">
                 <!-- Documents Upload -->
                 <label class="block mt-4 text-sm">
@@ -96,18 +137,14 @@
                   <input type="file" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .docx, .jpg, .png" required />
                 </label>
               </div>
+              <div class="w-full md:w-1/2 px-4">
+                <!-- Photo upload  -->
+                <label class="block mt-4  text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">Upload Photo<span class="text-red-600 font-bold">*</span></span>
+                  <input type="file" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .docx, .jpg, .png" required />
+                </label>
+              </div>
             </div>
-
-
-            <!-- Address -->
-            <label class="block mt-4 px-4 text-sm">
-              <span class="text-gray-700 dark:text-gray-400">Address <span class="text-red-600 font-bold">*</span></span>
-              <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter Address"></textarea>
-            </label>
-            <label class="block mt-4 px-4 text-sm">
-              <span class="text-gray-700 dark:text-gray-400">Upload Photo<span class="text-red-600 font-bold">*</span></span>
-              <input type="file" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .docx, .jpg, .png" required />
-            </label>
             <!-- Terms and Conditions -->
             <!-- <div class="mt-6 px-4 text-sm">
               <label class="flex items-center dark:text-gray-400">

@@ -28,6 +28,9 @@
 
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
+
+    $ActiveSettingsBar = '';
+    $SettingsActiveTextColor = '';
     include './php/header-asidebar.php';
     ?>
 

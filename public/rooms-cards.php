@@ -26,6 +26,8 @@
     $CustomerActiveTextColor = '';
     $ActiveRoomsBar = "<span class='absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg' aria-hidden='true'></span>";
     $RoomActiveTextColor = 'text-gray-800';
+    $ActiveSettingsBar = '';
+    $SettingsActiveTextColor = '';
     include './php/header-asidebar.php';
     ?>
 
@@ -108,7 +110,7 @@
                 </p>
               </div>
 
-              <button class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
+              <button onclick="window.location.href='./customer_list.php'" class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
                 View
               </button>
             </div>
