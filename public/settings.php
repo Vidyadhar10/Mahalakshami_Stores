@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="./assets/js/init-alpine.js"></script>
   <script src="./assets/js/focus-trap.js" defer></script>
+  <script src="./pages/js/validation.js"></script>
   <style>
     .tab {
       position: relative;
@@ -139,18 +140,49 @@
 
             </div>
 
-            <div x-show="activeTab === 2" class="bg-white p-4 rounded-lg">
+            <div x-show="activeTab === 2" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <!-- Form 2 -->
               <h1 class="text-xl font-semibold mb-4">Form 2</h1>
               <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button>
               <!-- Add your form fields here -->
             </div>
 
-            <div x-show="activeTab === 3" class="bg-white p-4 rounded-lg">
-              <!-- Form 3 -->
-              <h1 class="text-xl font-semibold mb-4">Form 3</h1>
-              <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button>
+            <div x-show="activeTab === 3" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <!-- Meter settings 3 -->
+              <h1 class="text-xl font-semibold mb-4 dark:text-gray-300">Electricity Meter Settings</h1>
               <!-- Add your form fields here -->
+              <div class="flex flex-wrap -mx-4">
+                <div class="w-full md:w-1/2">
+                  <span class="px-4 text-gray-700 dark:text-gray-400">Enter Meter Rate<span class="text-red-600 font-bold">*</span></span>
+                  <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 px-4">
+                      <label class="block text-sm mb-2">
+                        <input type="text" maxlength="5" oninput="InputNumberOnly(this.id)" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="10" />
+                      </label>
+                    </div>
+
+                    <div class="w-full md:w-1/2 px-4">
+                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" id="AddMeterRateBtn">Add</button>
+                    </div>
+                  </div>
+
+                  <!-- <hr> -->
+                  <div class="flex flex-wrap -mx-4  mb-4">
+                    <div class="w-full md:w-1/2 px-4">
+                      <span class="text-gray-700 dark:text-gray-400">Current Meter Rate</span>
+                    </div>
+                    <div class="w-full md:w-1/2 px-4 mt-2">
+                      <span class="px-2 py-1 mt-2 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                        10 RS
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="w-full md:w-1/2 px-4">
+
+                </div>
+              </div>
             </div>
 
 
@@ -237,6 +269,37 @@
     })
   })
   $('#AddRoomTypeBtn').on('click', function() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      // confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+      // denyButtonClass: "btn btn-danger w-xs mt-2",
+      // buttonsStyling: !1,
+      focusConfirm: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  })
+  $('#AddMeterRateBtn').on('click', function() {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

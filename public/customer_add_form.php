@@ -105,7 +105,7 @@
                   <div class="w-full md:w-1/2 px-4">
                     <label class="block mt-4 text-sm">
                       <span class="text-gray-700 dark:text-gray-400">
-                        Select Room Number
+                        Select Room Number<span class="text-red-600 font-bold">*</span>
                       </span>
                       <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                         <option>1</option>
@@ -118,6 +118,7 @@
                 </div>
               </div>
               <div class="w-full md:w-1/2 ">
+                <!-- Address -->
                 <label class="block mt-4 px-4 text-sm">
                   <span class="text-gray-700 dark:text-gray-400">Address <span class="text-red-600 font-bold">*</span></span>
                   <textarea rows="1" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter Address"></textarea>
@@ -125,16 +126,12 @@
               </div>
             </div>
 
-
-            <!-- Address -->
-
-
             <div class="flex flex-wrap -mx-4">
               <div class="w-full md:w-1/2 px-4">
                 <!-- Documents Upload -->
                 <label class="block mt-4 text-sm">
                   <span class="text-gray-700 dark:text-gray-400">Documents Upload <span class="text-red-600 font-bold">*</span></span>
-                  <input type="file" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .docx, .jpg, .png" required />
+                  <input type="file" multiple class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .docx, .jpg, .png" required />
                 </label>
               </div>
               <div class="w-full md:w-1/2 px-4">
@@ -143,6 +140,26 @@
                   <span class="text-gray-700 dark:text-gray-400">Upload Photo<span class="text-red-600 font-bold">*</span></span>
                   <input type="file" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .docx, .jpg, .png" required />
                 </label>
+              </div>
+            </div>
+            <div class="flex flex-wrap -mx-4">
+              <div class="w-full md:w-1/2 px-4 mt-4">
+                <span class="text-gray-700 dark:text-gray-400 ">
+                  Deposit paid (Rs 2500)<span class="text-red-600 font-bold">*</span>
+                </span>
+                <div class="mt-2">
+                  <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
+                    <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="personal" />
+                    <span class="ml-2">Yes</span>
+                  </label>
+                  <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
+                    <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="busines" />
+                    <span class="ml-2">No</span>
+                  </label>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-4">
+
               </div>
             </div>
             <!-- Terms and Conditions -->
