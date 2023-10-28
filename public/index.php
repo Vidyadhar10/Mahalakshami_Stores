@@ -12,7 +12,9 @@ if (isset($_SESSION['username'])) {
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>Mahalakshmi Stores Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
@@ -54,10 +56,10 @@ if (isset($_SESSION['username'])) {
               <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
 
                 <div class="flex items-end justify-end w-full">
-                  <button @click="openModal" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                  <button @click="openModal" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="addNewTxnBtn">
                     <span class="ml-2" aria-hidden="true">+</span> Add new Transaction
                   </button>
-                  <button class="px-4 py-2 ml-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
+                  <button class="px-4 py-2 ml-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'" data-translate="addNewCustomerBtn">
                     <span class="ml-2" aria-hidden="true">+</span> Add new Customer
                   </button>
                 </div>
@@ -65,7 +67,7 @@ if (isset($_SESSION['username'])) {
             </div>
 
             <!-- Cards -->
-            <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+            <div class="grid gap-6  md:grid-cols-2 xl:grid-cols-4">
               <!-- Card -->
               <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
@@ -75,8 +77,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Today's Total Transactions <br>(आजचे टोटल ट्रांसकशन्स)
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="TodaysTotalTxnCard">
+                    Today's Total Transactions
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                     10
@@ -91,8 +93,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total Amount Pending <br>(टोटल अमाऊंट येणे बाकी)
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="TotalAmtPendingCard">
+                    Total Amount Pending
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                     ₹ 20,500.00
@@ -108,7 +110,7 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="TotalCustomersCard">
                     Total Customers <br> (टोटल कस्टमर्स)
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
@@ -124,9 +126,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total Rooms <br>
-                    (टोटल )
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="TotalRoomsCard">
+                    Total Rooms
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                     12
@@ -138,18 +139,18 @@ if (isset($_SESSION['username'])) {
             <!-- New Table -->
             <div class="w-full overflow-hidden rounded-lg shadow-xs my-6">
               <div class="w-full overflow-x-auto">
-                <h4 class="mt-4 ml-4 mb-2 font-semibold text-gray-800 dark:text-gray-300">
+                <h4 class="mt-4 ml-4 mb-2 font-semibold text-gray-800 dark:text-gray-300" data-translate="RecentTxnTableHeading">
                   Recent Transactions
                 </h4>
                 <table class="w-full whitespace-no-wrap">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Sr No</th>
-                      <th class="px-4 py-3">customer ID</th>
-                      <th class="px-4 py-3">customer Name</th>
-                      <th class="px-4 py-3">Amount Deposited / Note</th>
-                      <th class="px-4 py-3">txn. Time</th>
-                      <th class="px-4 py-3">View Details</th>
+                      <th class="px-4 py-3" data-translate="RTxnSrNo">Sr No</th>
+                      <th class="px-4 py-3" data-translate="RTxnCustAccNo">Account No</th>
+                      <th class="px-4 py-3" data-translate="RTxnCustomerName">customer Name</th>
+                      <th class="px-4 py-3" data-translate="RTxnCustAmtPaid">Amount Deposited / Note</th>
+                      <th class="px-4 py-3" data-translate="RTxnCustTxnTime">txn. Time</th>
+                      <th class="px-4 py-3" data-translate="viewDetailsCol">View Details</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -184,7 +185,7 @@ if (isset($_SESSION['username'])) {
                         10 min. ago
                       </td>
                       <td class="px-4 py-3 text-sm" width="200">
-                        <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='customer_details.php'">
+                        <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='customer_details.php'" data-translate="RTxnRowViewBtn">
                           View
                         </button>
                       </td>
@@ -271,8 +272,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Deposit Amount <br>(ठेव रक्कम)
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="AmtDepositByUserCard">
+                    Deposit Amount
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                     5000
@@ -287,8 +288,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Amount Deposited Date (रक्कम जमा केल्याची तारीख)
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="AmtDepositedDateCard">
+                    Amount Deposited Date
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                     26-10-2023
@@ -304,8 +305,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total Amount Pending <br>(टोटल अमाऊंट येणे बाकी)/(एकूण रक्कम प्रलंबित)
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="UsersDueAmtCard">
+                    Total Amount Pending
 
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
@@ -321,9 +322,8 @@ if (isset($_SESSION['username'])) {
                   </svg>
                 </div>
                 <div>
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Meter reading rate per unit <br>
-                    (प्रति युनिट मीटर वाचन दर))
+                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="MeterUnitRateCard">
+                    Meter reading rate per unit
                   </p>
                   <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                     9
@@ -333,19 +333,19 @@ if (isset($_SESSION['username'])) {
             </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs ">
               <div class="w-full overflow-x-auto">
-                <h4 class="mt-4 ml-4 mb-2 font-semibold text-gray-800 dark:text-gray-300">
+                <h4 class="mt-4 ml-4 mb-2 font-semibold text-gray-800 dark:text-gray-300" data-translate="UserTxnHistoryTable">
                   Transaction History
                 </h4>
                 <table class="w-full whitespace-no-wrap" id="Customers-txn-table">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Sr No</th>
-                      <th class="px-4 py-3">Rent Given date (जमा तारीख)</th>
-                      <th class="px-4 py-3">Ongoing Reading (चालू रेड़ीन्ग)</th>
-                      <th class="px-4 py-3">Electricity Bill</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableSrNo">Sr No</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRentDate">Rent Given date</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableOngoingReading">Ongoing Reading (चालू रेड़ीन्ग)</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableElectricityBill">Electricity Bill</th>
                       <th class="px-4 py-3">Rent(भाडे)</th>
                       <th class="px-4 py-3">Total Rent to be paid</th>
-                      <th class="px-4 py-3">Accumulated Rent (जमा भाडे)</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableNote">Accumulated Rent (जमा भाडे)</th>
                       <th class="px-4 py-3">Pending Amount</th>
                     </tr>
                   </thead>
@@ -528,11 +528,12 @@ if (isset($_SESSION['username'])) {
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="./pages/js/main.js"></script>
 <script>
   <?php
   // if ($_SESSION['AdminStatus'] == 0) {
-  $user = 1;
-  if ($user == 1) {
+  $user = 0;
+  if ($user == 0) {
     //show user section
   ?>
     $('.adminView').css('display', 'none')

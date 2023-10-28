@@ -1,0 +1,111 @@
+{
+    "index": {
+        "addNewTxnBtn": {
+            "mar": "नवीन व्यवहार जोडा",
+            "eng": "Add New Transaction"
+        },
+        "addNewCustomerBtn": {
+            "mar": "नवीन ग्राहक जोडा",
+            "eng": "Add New Customer"
+        },
+        "TodaysTotalTxnCard": {
+            "eng": "Today's Total Transactions",
+            "mar": "आजचे टोटल ट्रांसकशन्स"
+        },
+        "TotalAmtPendingCard": {
+            "eng": "Total Amount Pending",
+            "mar": "टोटल अमाऊंट येणे बाकी"
+        },
+        "TotalCustomersCard": {
+            "eng": "Total Customers",
+            "mar": "टोटल कस्टमर्स"
+        },
+        "TotalRoomsCard": {
+            "eng": "Total Rooms",
+            "mar": "टोटल रूम्स"
+        },
+        "RecentTxnTableHeading": {
+            "eng": "Recent Transactions",
+            "mar": "अलीकडील व्यवहार"
+        },
+        "RTxnSrNo": {
+            "eng": "sr no",
+            "mar": "अ. क्र."
+        },
+        "RTxnCustAccNo": {
+            "eng": "ACCOUNT NO",
+            "mar": "खाते क्रमांक"
+        },
+        "RTxnCustomerName": {
+            "eng": "customer Name",
+            "mar": "ग्राहकाचे नाव"
+        },
+        "RTxnCustAmtPaid": {
+            "eng": "Amount Paid",
+            "mar": "दिलेली रक्कम"
+        },
+        "RTxnCustTxnTime": {
+            "eng": "Txn. Time",
+            "mar": "व्यवहार वेळ"
+        },
+        "viewDetailsCol": {
+            "eng": "View Details",
+            "mar": "तपशील पहा"
+        },
+        "RTxnRowViewBtn": {
+            "eng": "View",
+            "mar": "पहा"
+        },
+        "USER SIDE STARTS HERE": {},
+        "AmtDepositByUserCard": {
+            "eng": "Deposit Amount",
+            "mar": "ठेव रक्कम"
+        },
+        "AmtDepositedDateCard": {
+            "eng": "Amount Deposited Date",
+            "mar": "रक्कम जमा केल्याची तारीख"
+        },
+        "UsersDueAmtCard": {
+            "eng": "Total Amount Due",
+            "mar": "टोटल अमाऊंट देणे बाकी"
+        },
+        "MeterUnitRateCard": {
+            "eng": "Meter Reading Rate Per Unit",
+            "mar": "प्रति युनिट मीटर वाचन दर"
+        },
+        "UserTxnHistoryTable": {
+            "eng": "Transaction History",
+            "mar": "ट्रांसकशन हिस्टरी"
+        },
+        "TxnHisTableSrNo": {
+            "eng": "sr no",
+            "mar": "अ. क्र."
+        },
+        "TxnHisTableRentDate": {
+            "eng": "RENT GIVEN DATE",
+            "mar": "जमा तारीख"
+        },
+        "TxnHisTableOngoingReading": {
+            "eng": "ONGOING READING",
+            "mar": "चालू रेड़ीन्ग"
+        },
+        "TxnHisTableElectricityBill": {
+            "eng": "ELECTRICITY BILL",
+            "mar": "वीज बिल"
+        },
+        "TxnHisTableNote": {
+            "eng": "NOTE",
+            "mar": "टीप"
+        }
+    },
+    "rooms-card": {
+        "TodaysTotalTxnCard": {
+            "eng": "Today's Total Transactions",
+            "mar": "आजचे टोटल ट्रांसकशन्स"
+        },
+        "TotalAmtPending": {
+            "eng": "Total Amount Pending",
+            "mar": "टोटल अमाऊंट येणे बाकी"
+        }
+    }
+}

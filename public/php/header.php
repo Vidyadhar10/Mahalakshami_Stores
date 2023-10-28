@@ -37,6 +37,7 @@
           </template>
         </button>
       </li>
+      <!-- screen size toggler  -->
       <li class="flex">
         <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="togglefullscreen">
           <template x-if="!dark">
@@ -45,6 +46,17 @@
           <template x-if="dark">
             <img src="./images/exit-full-screen.png" height="20" width="20" style="color: #6c2bd9;" alt="" srcset="">
           </template>
+        </button>
+      </li>
+      <!-- language toggler  -->
+      <li class="flex" x-data="{ eng: true, mar: false }">
+        <button class="rounded-md focus:outline-none focus:shadow-outline-purple" onclick="ToggleLanguageBtn()">
+          <template x-if="eng">
+            <img src="./images/lang-eng.png" id="languageIconImg" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
+          </template>
+          <!-- <template x-if="mar">
+            <img src="./images/lang-mar.png" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
+          </template> -->
         </button>
       </li>
       <!-- Notifications menu -->
