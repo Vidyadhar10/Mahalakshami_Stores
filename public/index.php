@@ -13,7 +13,7 @@ if (isset($_SESSION['username'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Windmill Dashboard</title>
+  <title>Mahalakshmi Stores Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -341,10 +341,12 @@ if (isset($_SESSION['username'])) {
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                       <th class="px-4 py-3">Sr No</th>
                       <th class="px-4 py-3">Rent Given date (जमा तारीख)</th>
-                      <th class="px-4 py-3">Accumulated Rent (जमा भाडे)</th>
                       <th class="px-4 py-3">Ongoing Reading (चालू रेड़ीन्ग)</th>
                       <th class="px-4 py-3">Electricity Bill</th>
-                      <th class="px-4 py-3">Amount Deposited (अमाऊंट जमा) / Note</th>
+                      <th class="px-4 py-3">Rent(भाडे)</th>
+                      <th class="px-4 py-3">Total Rent to be paid</th>
+                      <th class="px-4 py-3">Accumulated Rent (जमा भाडे)</th>
+                      <th class="px-4 py-3">Pending Amount</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -356,22 +358,29 @@ if (isset($_SESSION['username'])) {
                         06-10-2023
                       </td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        ₹ 890
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
                         150
                       </td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;">
                         150 x 9 = <span class="font-semibold">1350</span>
                       </td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        ₹ 440
+                        2500
+                      </td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        2500 + 1350 = <span class="font-semibold">3850</span>
+                      </td>
+
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        ₹ 890
+                      </td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        3850 - 3000 = <span class="font-semibold" style="color: red;">850</span>
                       </td>
                     </tr>
                   </tbody>
                   <tfoot class="bg-gray-50 dark:bg-gray-800">
                     <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3 text-sm" colspan="5"></td>
+                      <td class="px-4 py-3 text-sm" colspan="7"></td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;"><strong>TOTAL AMOUNT PENDING: ₹ 450</strong></td>
                     </tr>
                   </tfoot>

@@ -84,7 +84,7 @@
 
         </div>
 
-        <div class="container px-6 my-6 mx-auto">
+        <div class="container px-6 my-6 mx-auto" id="passwordupdatecard" style="display: none;">
           <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800  mt-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
               Update Password
@@ -220,5 +220,15 @@
     });
   });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  $(document).ready(function() {
+    $("#UpdatePasswordBtn").on("click", function() {
+      $('#passwordupdatecard').css('display', 'block');
+    });
+  });
+</script>
+
 
 </html>
