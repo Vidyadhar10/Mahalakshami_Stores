@@ -96,16 +96,147 @@
         "TxnHisTableNote": {
             "eng": "NOTE",
             "mar": "टीप"
+        },
+        "ADD NEW TRANSACTION STARTS HERE": {},
+        "TxnModalheader": {
+            "eng": "Transaction",
+            "mar": "व्यवहार"
+        },
+        "TxnDate": {
+            "eng": "Transaction Date",
+            "mar": "व्यवहाराची तारीख"
+        },
+        "SelectedCust": {
+            "eng": "Selected Customer",
+            "mar": "निवडलेला ग्राहक"
+        },
+        "AccumulatedRent": {
+            "eng": "Accumulated Rent",
+            "mar": "जमा भाडे"
+        },
+        "OngoingReading": {
+            "eng": "OngoingReading",
+            "mar": "चालू रेड़ीन्ग"
+        },
+        "PrevReading": {
+            "eng": "Previous Reading",
+            "mar": "मागील रेड़ीन्ग"
+        },
+        "AmtDeposited": {
+            "eng": "Amount Deposited",
+            "mar": "जमा केलेली रक्कम"
+        },
+        "Note": {
+            "eng": "Note About Deposit (optional)",
+            "mar": "ठेवीबद्दल टीप (पर्यायी)"
+        },
+        "CancelBtn": {
+            "eng": "Cancel",
+            "mar": "रद्द करा"
+        },
+        "AddBtn": {
+            "eng": "Add",
+            "mar": "जोडा"
         }
     },
-    "rooms-card": {
-        "TodaysTotalTxnCard": {
-            "eng": "Today's Total Transactions",
-            "mar": "आजचे टोटल ट्रांसकशन्स"
+    "rooms-cards": {
+        "AddNewRoomBtn": {
+            "eng": "Add New Room",
+            "mar": "नवीन खोली जोडा"
         },
-        "TotalAmtPending": {
-            "eng": "Total Amount Pending",
-            "mar": "टोटल अमाऊंट येणे बाकी"
+        "AllRooms": {
+            "eng": "All Rooms",
+            "mar": "सर्व खोल्या"
+        },
+        "RoomDetails": {
+            "eng": "Room Details",
+            "mar": "खोलीचे तपशील"
+        },
+        "RoomNum": {
+            "eng": "Room Number",
+            "mar": "खोली क्रमांक"
+        },
+        "RoomType": {
+            "eng": "Room type",
+            "mar": "खोली प्रकार"
+        },
+        "Tenant": {
+            "eng": "Tenant",
+            "mar": "भाडेकरू"
+        },
+        "Available": {
+            "eng": "Available",
+            "mar": "उपलब्ध"
+        },
+        "ViewBtn": {
+            "eng": "View",
+            "mar": "पहा"
+        },
+        "roomsInputSearchBox": {
+            "eng": "Search for room number",
+            "mar": "खोली क्रमांक शोधा"
+        }
+    },
+    "customer_add_form": {
+        "AddCustBtn": {
+            "eng": "Add Customer",
+            "mar": "ग्राहक जोडा"
+        },
+        "Name": {
+            "eng": "Name",
+            "mar": "नाव"
+        },
+        "email": {
+            "eng": "Email",
+            "mar": "ई-मेल"
+        },
+        "MobileNum": {
+            "eng": "Mobile Number",
+            "mar": "मोबाईल नंबर"
+        },
+        "Designation": {
+            "eng": "Designation",
+            "mar": "हुद्दा"
+        },
+        "AccountNum": {
+            "eng": "Account Number",
+            "mar": "खाते क्रमांक"
+        },
+        "SelectRoomNum": {
+            "eng": "Select Room Number",
+            "mar": "खोली क्रमांक निवडा"
+        },
+        "Address": {
+            "eng": "Address",
+            "mar": "पत्ता"
+        },
+        "UploadDoc": {
+            "eng": "Upload Documents",
+            "mar": "दस्तऐवज अपलोड करा"
+        },
+        "UploadPhoto": {
+            "eng": "Upload Photo",
+            "mar": "फोटो अपलोड करा"
+        },
+        "DepositPaid": {
+            "eng": "Deposit paid ?(Rs 2500)",
+            "mar": "ठेव भरली?"
+        },
+        "Yes": {
+            "eng": "Yes",
+            "mar": "होय"
+        },
+        "No": {
+            "eng": "No",
+            "mar": "नाही"
+        },
+        "SubmitBtn": {
+            "eng": "Submit",
+            "mar": "सबमीट "
+        },
+        "CancelBtn": {
+            "eng": "Cancel",
+            "mar": "रद्द करा"
         }
     }
 }

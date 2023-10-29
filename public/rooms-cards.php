@@ -13,6 +13,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
   <script src="./assets/js/charts-lines.js" defer></script>
   <script src="./assets/js/charts-pie.js" defer></script>
+  <script src="./pages/js/main.js"></script>
+
 
 </head>
 
@@ -41,7 +43,7 @@
 
             <div class="flex flex-wrap -mx-4  bg-white rounded-lg shadow-xs dark:bg-gray-800">
               <div class="w-full md:w-1/2 px-2 mt-2">
-                <a href="#" @click="openModal" class="inline-flex mb-4 mt-2 ml-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+                <a href="#" @click="openModal" data-translate="AddNewRoomBtn" class="inline-flex mb-4 mt-2 ml-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
                   Add New Room
                 </a>
               </div>
@@ -53,12 +55,12 @@
                       <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                     </svg>
                   </div>
-                  <input class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for room number" aria-label="Search" />
+                  <input class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for room number" aria-label="Search" data-translate="roomsInputSearchBox" />
                 </div>
               </div>
             </div>
           </div>
-          <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300">
+          <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300" data-translate="AllRooms">
             All Rooms
           </h4>
           <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
@@ -66,13 +68,13 @@
             <!-- card for rooms  -->
             <div class="flex flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
               <div class="w-full  px-4 mb-2">
-                <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400">
+                <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400" data-translate="RoomDetails">
                   Room Details
                 </h4>
 
               </div>
               <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomNum">
                   Room Number
                 </p>
               </div>
@@ -83,7 +85,7 @@
               </div>
               <div class="w-full"></div>
               <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomType">
                   Room type
                 </p>
               </div>
@@ -94,7 +96,7 @@
               </div>
               <hr>
               <div class="w-full md:w-1/2 px-4 mb-2">
-                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="Tenant">
                   Tenant
                 </p>
                 <p class="text-lg font-semibold text-red-700 text-gray-700 dark:text-gray-200">
@@ -102,7 +104,7 @@
                 </p>
               </div>
               <div class="w-full md:w-1/2 px-4 mb-2">
-                <p class="mb-2 text-sm font-medium  text-gray-600 dark:text-gray-400">
+                <p class="mb-2 text-sm font-medium  text-gray-600 dark:text-gray-400" data-translate="Available">
                   Available
                 </p>
                 <p class="text-lg font-semibold text-green-700 text-gray-700 dark:text-gray-200">
@@ -110,7 +112,7 @@
                 </p>
               </div>
 
-              <button onclick="window.location.href='./customer_list.php'" class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
+              <button onclick="window.location.href='./customer_list.php'" class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'" data-translate="ViewBtn">
                 View
               </button>
             </div>

@@ -465,18 +465,18 @@ if (isset($_SESSION['username'])) {
           <!-- Modal body -->
           <div class="mt-4 mb-6">
             <!-- Modal title -->
-            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300" data-translate="TxnModalheader">
               Transaction
             </p>
             <!-- Modal description -->
             <form>
               <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Transaction Date <span class="text-red-600 font-bold">*</span></span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="TxnDate">Transaction Date <span class="text-red-600 font-bold">*</span></span>
                 <input type="date" onclick="this.showPicker()" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
               </label>
 
               <label class="block mb-2 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
+                <span class="text-gray-700 dark:text-gray-400" data-translate="SelectedCust">
                   Selected Customer <span class="text-red-600 font-bold">*</span>
                 </span>
                 <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -488,23 +488,23 @@ if (isset($_SESSION['username'])) {
                 </select>
               </label>
               <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Accumulated Rent (जमा भाडे) <span class="text-red-600 font-bold">*</span></span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="AccumulatedRent">Accumulated Rent (जमा भाडे) <span class="text-red-600 font-bold">*</span></span>
                 <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
               </label>
               <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Ongoing Reading (चालू रेड़ीन्ग) <span class="text-red-600 font-bold">*</span></span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="OngoingReading">Ongoing Reading (चालू रेड़ीन्ग) <span class="text-red-600 font-bold">*</span></span>
                 <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
               </label>
               <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Previous Reading (मागील रेड़ीन्ग)</span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="PrevReading">Previous Reading (मागील रेड़ीन्ग)</span>
                 <input type="number" disabled class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
               </label>
               <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Amount Deposited (अमाऊंट जमा) <span class="text-red-600 font-bold">*</span></span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="AmtDeposited">Amount Deposited (अमाऊंट जमा) <span class="text-red-600 font-bold">*</span></span>
                 <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
               </label>
               <label class="block text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-400">Note About Deposit (optional)</span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="Note">Note About Deposit (optional)</span>
                 <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some short note about transaction."></textarea>
               </label>
 
@@ -513,10 +513,10 @@ if (isset($_SESSION['username'])) {
             </form>
           </div>
           <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-            <button @click="closeModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+            <button @click="closeModal" data-translate="CancelBtn" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
               Cancel
             </button>
-            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="AddBtn">
               Add
             </button>
           </footer>
@@ -532,7 +532,7 @@ if (isset($_SESSION['username'])) {
 <script>
   <?php
   // if ($_SESSION['AdminStatus'] == 0) {
-  $user = 0;
+  $user = 1;
   if ($user == 0) {
     //show user section
   ?>

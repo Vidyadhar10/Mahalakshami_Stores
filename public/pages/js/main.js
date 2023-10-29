@@ -49,6 +49,11 @@ function languageChosen(lang) {
                 if (translations[pageName][key] && translations[pageName][key][lang]) {
                     // Update the element's content with the translation
                     $(this).text(translations[pageName][key][lang]);
+
+
+                    if (key == 'roomsInputSearchBox') {
+                        $(this).attr('placeholder', `${translations[pageName][key][lang]}`)
+                    }
                 }
             });
         }
