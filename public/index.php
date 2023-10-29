@@ -1,10 +1,9 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])) {
-  $usernm = $_SESSION['Name'];
-  $userID = $_SESSION['UID'];
+if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
+  $userID = $_SESSION['UserID'];
 } else {
-  // header('location:./php/logout.php');
+  header('location:./php/logout.php');
 }
 ?>
 <!DOCTYPE html>
@@ -12,7 +11,6 @@ if (isset($_SESSION['username'])) {
 
 <head>
   <meta charset="UTF-8" />
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <title>Mahalakshmi Stores Dashboard</title>
@@ -24,6 +22,24 @@ if (isset($_SESSION['username'])) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
   <script src="./assets/js/charts-lines.js" defer></script>
   <script src="./assets/js/charts-pie.js" defer></script>
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Tiro Devanagari Marathi', serif;
+    }
+  </style> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+    }
+  </style>
 
 </head>
 
@@ -147,6 +163,7 @@ if (isset($_SESSION['username'])) {
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                       <th class="px-4 py-3" data-translate="RTxnSrNo">Sr No</th>
                       <th class="px-4 py-3" data-translate="RTxnCustAccNo">Account No</th>
+                      <th class="px-4 py-3" data-translate="RTxnCustRoomNo">Room No</th>
                       <th class="px-4 py-3" data-translate="RTxnCustomerName">customer Name</th>
                       <th class="px-4 py-3" data-translate="RTxnCustAmtPaid">Amount Deposited / Note</th>
                       <th class="px-4 py-3" data-translate="RTxnCustTxnTime">txn. Time</th>
@@ -159,7 +176,10 @@ if (isset($_SESSION['username'])) {
                         1
                       </td>
                       <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
-                        #43
+                        43
+                      </td>
+                      <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
+                        3
                       </td>
 
                       <td class="px-4 py-3">
@@ -343,10 +363,10 @@ if (isset($_SESSION['username'])) {
                       <th class="px-4 py-3" data-translate="TxnHisTableRentDate">Rent Given date</th>
                       <th class="px-4 py-3" data-translate="TxnHisTableOngoingReading">Ongoing Reading (चालू रेड़ीन्ग)</th>
                       <th class="px-4 py-3" data-translate="TxnHisTableElectricityBill">Electricity Bill</th>
-                      <th class="px-4 py-3">Rent(भाडे)</th>
-                      <th class="px-4 py-3">Total Rent to be paid</th>
-                      <th class="px-4 py-3" data-translate="TxnHisTableNote">Accumulated Rent (जमा भाडे)</th>
-                      <th class="px-4 py-3">Pending Amount</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRent">Rent(भाडे)</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRentToBePaid">Total Rent to be paid</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableNote">Accumulated Rent</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTablePendingAmt">Pending Amount</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -374,14 +394,14 @@ if (isset($_SESSION['username'])) {
                         ₹ 890
                       </td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        3850 - 3000 = <span class="font-semibold" style="color: red;">850</span>
+                        3850 - 3000 = <span class="font-semibold text-red-700">850</span>
                       </td>
                     </tr>
                   </tbody>
                   <tfoot class="bg-gray-50 dark:bg-gray-800">
                     <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3 text-sm" colspan="7"></td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;"><strong>TOTAL AMOUNT PENDING: ₹ 450</strong></td>
+                      <td class="px-4 py-3 text-sm" colspan="6"></td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;" colspan="2"><strong>TOTAL AMOUNT PENDING: ₹ 450</strong></td>
                     </tr>
                   </tfoot>
                 </table>
@@ -523,6 +543,8 @@ if (isset($_SESSION['username'])) {
         </div>
       </div>
 
+
+
     </div>
   </div>
 </body>
@@ -531,10 +553,7 @@ if (isset($_SESSION['username'])) {
 <script src="./pages/js/main.js"></script>
 <script>
   <?php
-  // if ($_SESSION['AdminStatus'] == 0) {
-  $user = 1;
-  if ($user == 0) {
-    //show user section
+  if ($_SESSION['AdminStatus'] == 0) {
   ?>
     $('.adminView').css('display', 'none')
     $('.userView').css('display', 'block')

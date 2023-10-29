@@ -36,6 +36,10 @@
             "eng": "ACCOUNT NO",
             "mar": "खाते क्रमांक"
         },
+        "RTxnCustRoomNo": {
+            "eng": "ROOM NO",
+            "mar": "खोली क्रमांक"
+        },
         "RTxnCustomerName": {
             "eng": "customer Name",
             "mar": "ग्राहकाचे नाव"
@@ -93,9 +97,21 @@
             "eng": "ELECTRICITY BILL",
             "mar": "वीज बिल"
         },
+        "TxnHisTableRent": {
+            "eng": "RENT",
+            "mar": "भाडे"
+        },
+        "TxnHisTableRentToBePaid": {
+            "eng": "TOTAL RENT TO BE PAID",
+            "mar": "एकूण भाडे द्यावे लागेल"
+        },
         "TxnHisTableNote": {
-            "eng": "NOTE",
-            "mar": "टीप"
+            "eng": "Accumulated Rent",
+            "mar": "जमा भाडे"
+        },
+        "TxnHisTablePendingAmt": {
+            "eng": "PENDING AMOUNT",
+            "mar": "पेंडिंग अमाऊंट"
         },
         "ADD NEW TRANSACTION STARTS HERE": {},
         "TxnModalheader": {
