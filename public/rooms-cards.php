@@ -359,9 +359,45 @@
             <form>
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
+                  <div class=" mb-2 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                      Select add option
+                    </span>
+                    <div class="mt-2">
+                      <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
+                        <input type="radio" checked class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="personal" />
+                        <span class="ml-2">Single</span>
+                      </label>
+                      <label class="inline-flex items-center md:ml-6 text-gray-600 dark:text-gray-400">
+                        <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="busines" />
+                        <span class="ml-2">Multiple (same structured)</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="w-full md:w-1/2 px-4">
+
+                  <label class="block mb-2 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                      Select Floor<span class="text-red-600 font-bold">*</span></span>
+                    </span>
+                    <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                      <option selected>Select</option>
+                      <option>ground floor</option>
+                      <option>1st floor</option>
+                      <option>2nd floor</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap -mx-4">
+
+                <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400" data-translate="RoomNum">Enter room number <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123" />
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="RoomNum">Enter tenant capacity <span class="text-red-600 font-bold">*</span></span></span>
+                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="4" />
                   </label>
                 </div>
 
@@ -383,16 +419,13 @@
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400" data-translate="TenantCapacity">Enter tenant capacity <span class="text-red-600 font-bold">*</span></span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="4" />
-                  </label>
-                </div>
-
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
                     <span class="text-gray-700 dark:text-gray-400" data-translate="DepositAmt">Enter Deposit Amount<span class="text-red-600 font-bold">*</span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
                   </label>
+
+                </div>
+
+                <div class="w-full md:w-1/2 px-4">
                 </div>
               </div>
 

@@ -11,9 +11,12 @@
   <script src="./assets/js/init-alpine.js"></script>
   <script src="./assets/js/focus-trap.js" defer></script>
   <script src="./pages/js/validation.js"></script>
-  <script src="./pages/js/main.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="./style.css">
+
   <style>
     .tab {
       position: relative;
@@ -104,7 +107,7 @@
 
                   <!-- <hr> -->
                   <div class="flex flex-wrap -mx-4  mb-4">
-                    <div class="w-full md:w-1/2 px-4">
+                    <div class="w-full md:w-1/2 px-4" id="room_type_badges">
                       <span class="px-2 py-1  mt-2 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                         Bachelors <span class="ml-2 text-red-700" aria-hidden="true" style="cursor: pointer;">x</span>
                       </span>
@@ -117,7 +120,7 @@
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
+                        <input type="text" style="text-align: right;" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
                       </label>
                     </div>
 
@@ -131,9 +134,69 @@
                         <span class=" text-gray-700 dark:text-gray-400" data-translate="SettingsCurrentDepositAmt">Current Deposit Ammount for Single room :</span>
                       </label>
                     </div>
-                    <div class="w-full md:w-1/2 px-4">
+                    <div class="w-full md:w-1/2 px-4" id="fixedDepositAmt">
                       <span class="px-2 py-1  mt-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                         2500
+                      </span>
+                    </div>
+                  </div>
+                  <!-- <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button> -->
+                </div>
+              </div>
+
+              <div class="flex flex-wrap -mx-4">
+
+                <div class="w-full md:w-1/2 px-4">
+                  <span class="px-4 text-gray-700 dark:text-gray-400">Set Number Of Floors<span class="text-red-600 font-bold">*</span></span>
+                  <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 px-4">
+                      <label class="block text-sm mb-2">
+                        <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="2" />
+                      </label>
+                    </div>
+
+                    <div class="w-full md:w-1/2 px-4">
+                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" id="AddUpdateTotalNumOfFloorsBtn">Add</button>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap -mx-4  mb-4">
+                    <div class="w-full md:w-1/2 px-4">
+                      <label class="block text-sm mb-2">
+                        <span class=" text-gray-700 dark:text-gray-400">Total number of floors :</span>
+                      </label>
+                    </div>
+                    <div class="w-full md:w-1/2 px-4" id="numoffloors">
+                      <span class="px-2 py-1  mt-2 font-semibold leading-tight text-blue-700 bg-blue-100 rounded-full dark:bg-blue-700 dark:text-blue-100">
+                        3
+                      </span>
+                    </div>
+                  </div>
+                  <!-- <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button> -->
+                </div>
+
+
+                <div class="w-full md:w-1/2 px-4">
+                  <span class="px-4 text-gray-700 dark:text-gray-400">Set Number Of Rooms Per Floor<span class="text-red-600 font-bold">*</span></span>
+                  <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 px-4">
+                      <label class="block text-sm mb-2">
+                        <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="6" />
+                      </label>
+                    </div>
+
+                    <div class="w-full md:w-1/2 px-4">
+                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" id="AddUpdateNumOfRoomsBtn">Add</button>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap -mx-4  mb-4">
+                    <div class="w-full md:w-1/2 px-4">
+                      <label class="block text-sm mb-2">
+                        <span class=" text-gray-700 dark:text-gray-400">Total number of Rooms :</span>
+                      </label>
+                    </div>
+                    <div class="w-full md:w-1/2 px-4" id="rooms_per_floor">
+                      <span class="px-2 py-1  mt-2 font-semibold leading-tight text-blue-700 bg-blue-100 rounded-full dark:bg-blue-700 dark:text-blue-100">
+                        6
                       </span>
                     </div>
                   </div>
@@ -174,7 +237,7 @@
                     <div class="w-full md:w-1/2 px-4">
                       <span class="text-gray-700 dark:text-gray-400">Current Meter Rate</span>
                     </div>
-                    <div class="w-full md:w-1/2 px-4 mt-2">
+                    <div class="w-full md:w-1/2 px-4 mt-2" id="meter_rate_badge">
                       <span class="px-2 py-1 mt-2 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                         10 RS
                       </span>
@@ -239,7 +302,9 @@
 <!-- jquery cdn  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="./pages/js/main.js"></script>
 <script>
+  GetMasterDataAll();
   $('#AddUpdateDepositBtn').on('click', function() {
     Swal.fire({
       title: 'Are you sure?',

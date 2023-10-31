@@ -9,6 +9,12 @@
   <link rel="stylesheet" href="../assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="../assets/js/init-alpine.js"></script>
+
+  <!-- font style  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
@@ -53,7 +59,15 @@
               Log in
             </a>
 
-            <hr class="my-4" />
+            <div class="flex mt-6 text-sm">
+              <label class="flex items-center dark:text-gray-400">
+                <input type="checkbox" id="auth-remember-check"
+                  class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
+                <span class="ml-2">
+                  Remember me
+                </span>
+              </label>
+            </div>
 
             <!-- <button
               class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
@@ -78,12 +92,12 @@
                 Forgot your password?
               </a>
             </p>
-            <!-- <p class="mt-1">
+            <p class="mt-1">
               <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
                 href="./create-account.html">
                 Create account
               </a>
-            </p> -->
+            </p>
           </div>
         </div>
       </div>
@@ -102,7 +116,17 @@
       document.getElementById('loginBtn').click();
     }
   }
+  $(document).ready(function () {
+    if (localStorage.remember === "true") {
+      $("#mobile-num").val(localStorage.username);
+      $("#password").val(atob(localStorage.password));
+      $("#auth-remember-check").prop("checked", true);
+    }
+  })
   $('#loginBtn').on('click', function () {
+
+    var remember = $("#auth-remember-check").prop("checked");
+
     var formTrue = true;
 
     if ($('#mobile-num').val() == '') {
@@ -124,6 +148,15 @@
         $('#password-invalid').html('Password should include at least one uppercase, one lowercase letter, one symbol and 8 characters long.')
 
       } else {
+        if (remember) {
+          // Save username and password to localStorage if 'Remember Me' is checked
+          localStorage.username = $('#mobile-num').val();
+          localStorage.password = btoa($('#password').val());
+          localStorage.remember = true;
+        } else {
+          // Clear saved data from localStorage if 'Remember Me' is not checked
+          localStorage.clear();
+        }
         $.ajax({
           url: "../php/loginUsingAjax.php",
           type: "POST",
