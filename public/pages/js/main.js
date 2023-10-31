@@ -46,6 +46,17 @@ function languageChosen(lang) {
     var pageName = filename.split('.')[0];
     // Load the JSON translations file
     $.getJSON('JSON/translation.json', function (translations) {
+
+        if (translations['Menubar']) {
+            // Iterate through elements with data-translate attribute
+            $('[data-translate]').each(function () {
+                var key = $(this).data('translate');
+                if (translations['Menubar'][key] && translations['Menubar'][key][lang]) {
+                    // Update the element's content with the translation
+                    $(this).text(translations['Menubar'][key][lang]);
+                }
+            });
+        }
         if (translations[pageName]) {
             // Iterate through elements with data-translate attribute
             $('[data-translate]').each(function () {
@@ -56,6 +67,21 @@ function languageChosen(lang) {
 
 
                     if (key == 'roomsInputSearchBox') {
+                        $(this).attr('placeholder', `${translations[pageName][key][lang]}`)
+                    }
+                }
+            });
+        }
+        if (translations[pageName]) {
+            // Iterate through elements with data-translate attribute
+            $('[data-translate]').each(function () {
+                var key = $(this).data('translate');
+                if (translations[pageName][key] && translations[pageName][key][lang]) {
+                    // Update the element's content with the translation
+                    $(this).text(translations[pageName][key][lang]);
+
+
+                    if (key == 'CustomerInputSearchBox') {
                         $(this).attr('placeholder', `${translations[pageName][key][lang]}`)
                     }
                 }

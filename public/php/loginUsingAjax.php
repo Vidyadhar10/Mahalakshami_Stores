@@ -23,6 +23,7 @@ if (isset($_POST['mobnumber']) && isset($_POST['PasswordText'])) {
         if ($row['Mobile_No'] === $uname && $row['Password'] === $pass) {
             $_SESSION['AdminStatus'] = $row['isAdmin'];
             $_SESSION['UserID'] = $row['ID'];
+            $_SESSION['isAuthorized'] = $row['isAuthorized'];
 
             $response = array(
                 "success" => true

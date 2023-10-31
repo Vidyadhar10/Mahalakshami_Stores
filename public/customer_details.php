@@ -14,6 +14,8 @@
   <script src="./assets/js/charts-lines.js" defer></script>
   <script src="./assets/js/charts-pie.js" defer></script>
   <link rel="stylesheet" href="./style.css">
+  <script src="./pages/js/main.js"></script>
+
 
 </head>
 
@@ -123,11 +125,11 @@
           </h4> -->
           <div class="px-2 my-6 py-2 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div class="" style="display:flex; align-items:center; justify-content:right;">
-              <a href="#" @click="openModal" class="inline-flex mb-6 mt-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+              <a href="#" @click="openModal" data-translate="addNewTxnBtn" class="inline-flex mb-6 mt-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
                 Add New Transaction
               </a>
-              <a href="#" id="exportBtn" class="inline-flex mb-6 mt-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
-                Export
+              <a href="#" id="downloadBtn" data-translate="DownloadBtn" class="inline-flex mb-6 mt-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+                Download
               </a>
             </div>
 
@@ -137,12 +139,14 @@
                 <table class="w-full whitespace-no-wrap" id="Customers-txn-table">
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Sr No</th>
-                      <th class="px-4 py-3">Deposit date (जमा तारीख)</th>
-                      <th class="px-4 py-3">Accumulated Rent (जमा भाडे)</th>
-                      <th class="px-4 py-3">Ongoing Reading (चालू रेड़ीन्ग)</th>
-                      <th class="px-4 py-3">Previous Reading (मागील रेड़ीन्ग)</th>
-                      <th class="px-4 py-3">Amount Deposited (अमाऊंट जमा) / Note</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableSrNo">Sr No</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRentDate">Rent Given date</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableOngoingReading">Ongoing Reading</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableElectricityBill">Electricity Bill</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRent">Rent</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRentToBePaid">Total Rent to be paid</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableNote">Accumulated Rent</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTablePendingAmt">Pending Amount</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -154,23 +158,30 @@
                         06-10-2023
                       </td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        150
+                      </td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        150 x 9 = <span class="font-semibold">1350</span>
+                      </td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        2500
+                      </td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
+                        2500 + 1350 = <span class="font-semibold">3850</span>
+                      </td>
+
+                      <td class="px-4 py-3 text-sm" style="text-align: right;">
                         ₹ 890
                       </td>
                       <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        ₹ 550
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        ₹ 340
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        ₹ 440
+                        3850 - 3000 = <span class="font-semibold text-red-700">850</span>
                       </td>
                     </tr>
                   </tbody>
                   <tfoot class="bg-gray-50 dark:bg-gray-800">
                     <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3 text-sm" colspan="5"></td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;"><strong>TOTAL AMOUNT PENDING: ₹ 450</strong></td>
+                      <td class="px-4 py-3 text-sm" colspan="6"></td>
+                      <td class="px-4 py-3 text-sm" style="text-align: right;" colspan="2"><strong>TOTAL AMOUNT PENDING: ₹ 450</strong></td>
                     </tr>
                   </tfoot>
                 </table>
@@ -259,7 +270,7 @@
           <!-- Modal body -->
           <div class="mt-4 mb-6">
             <!-- Modal title -->
-            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300" data-translate="TxnModalTitle">
               Transaction
             </p>
             <!-- Modal description -->
@@ -267,14 +278,14 @@
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Accumulated Rent (जमा भाडे) <span class="text-red-600 font-bold">*</span></span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="TxnAccumulatedRent">Accumulated Rent (जमा भाडे) <span class="text-red-600 font-bold">*</span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
                   </label>
                 </div>
 
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Ongoing Reading (चालू रेड़ीन्ग) <span class="text-red-600 font-bold">*</span></span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="OngoingReading">Ongoing Reading (चालू रेड़ीन्ग) <span class="text-red-600 font-bold">*</span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
                   </label>
                 </div>
@@ -283,31 +294,31 @@
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Previous Reading (मागील रेड़ीन्ग)</span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="PrevReading">Previous Reading (मागील रेड़ीन्ग)</span>
                     <input type="number" disabled class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
                   </label>
                 </div>
 
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Amount Deposited (अमाऊंट जमा) <span class="text-red-600 font-bold">*</span></span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="AmtDeposited">Amount Deposited (अमाऊंट जमा) <span class="text-red-600 font-bold">*</span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
                   </label>
                 </div>
               </div>
 
               <label class="block text-sm mb-2 px-4">
-                <span class="text-gray-700 dark:text-gray-400">Note About Deposit (optional)</span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="Note">Note About Deposit (optional)</span>
                 <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some short note about transaction."></textarea>
               </label>
 
             </form>
           </div>
           <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-            <button @click="closeModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+            <button @click="closeModal" data-translate="CancelBtn" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
               Cancel
             </button>
-            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="AddBtn">
               Add
             </button>
           </footer>

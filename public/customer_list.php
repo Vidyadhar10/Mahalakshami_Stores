@@ -13,6 +13,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
   <script src="./assets/js/charts-lines.js" defer></script>
   <script src="./assets/js/charts-pie.js" defer></script>
+  <script src="./pages/js/main.js"></script>
+
   <link rel="stylesheet" href="./style.css">
 
 </head>
@@ -39,7 +41,7 @@
       <main class="h-full overflow-y-auto">
         <div class="container px-6 mx-auto ">
 
-          <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300">
+          <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300" data-translate="AllCustomers">
             All Customers
           </h4>
           <div class="px-2 py-2 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -49,7 +51,7 @@
 
                 <div class="flex flex-wrap -mx-4 mt-2">
                   <div class="w-full md:w-1/2 px-2">
-                    <a href="./customer_add_form.php" class="inline-flex mb-4 mt-2 ml-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+                    <a href="./customer_add_form.php" class="inline-flex mb-4 mt-2 ml-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" data-translate="AddNewCustBtn">
                       Add New customer
                     </a>
                   </div>
@@ -61,7 +63,7 @@
                           <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                         </svg>
                       </div>
-                      <input class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for customer" aria-label="Search" />
+                      <input class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for customer" aria-label="Search" data-translate="CustomerInputSearchBox" />
                     </div>
                   </div>
                 </div>
@@ -71,7 +73,8 @@
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                       <th class="px-4 py-3">Sr No</th>
-                      <th class="px-4 py-3">Customer ID</th>
+                      <th class="px-4 py-3">Account No</th>
+                      <th class="px-4 py-3">Room No</th>
                       <th class="px-4 py-3">Customer Name</th>
                       <th class="px-4 py-3">Total Amount Pending</th>
                       <!-- <th class="px-4 py-3">Status</th> -->
@@ -85,7 +88,10 @@
                         1
                       </td>
                       <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
-                        #23
+                        43
+                      </td>
+                      <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
+                        3
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">

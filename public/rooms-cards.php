@@ -48,7 +48,6 @@
                   Add New Room
                 </a>
               </div>
-
               <div class="w-full md:w-1/2 px-4 mt-2">
                 <div class="relative w-full max-w-xl mt-2 mb-2 mr-6 focus-within:text-purple-500">
                   <div class="absolute inset-y-0 flex items-center pl-2">
@@ -353,7 +352,7 @@
           <!-- Modal body -->
           <div class="mt-4 mb-6">
             <!-- Modal title -->
-            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
+            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300" data-translate="RoomsCardModalHeader">
               New Room Details
             </p>
             <!-- Modal description -->
@@ -361,7 +360,7 @@
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Enter room number <span class="text-red-600 font-bold">*</span></span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="RoomNum">Enter room number <span class="text-red-600 font-bold">*</span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123" />
                   </label>
                 </div>
@@ -369,7 +368,7 @@
                 <div class="w-full md:w-1/2 px-4">
 
                   <label class="block mb-2 text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="RoomType">
                       Room Type<span class="text-red-600 font-bold">*</span></span>
                     </span>
                     <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
@@ -384,31 +383,31 @@
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Enter tenant capacity <span class="text-red-600 font-bold">*</span></span></span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="TenantCapacity">Enter tenant capacity <span class="text-red-600 font-bold">*</span></span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="4" />
                   </label>
                 </div>
 
                 <div class="w-full md:w-1/2 px-4">
                   <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Enter Deposit Amount<span class="text-red-600 font-bold">*</span></span>
+                    <span class="text-gray-700 dark:text-gray-400" data-translate="DepositAmt">Enter Deposit Amount<span class="text-red-600 font-bold">*</span></span>
                     <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
                   </label>
                 </div>
               </div>
 
               <label class="block text-sm mb-2 px-4">
-                <span class="text-gray-700 dark:text-gray-400">Note About Room (optional)</span>
+                <span class="text-gray-700 dark:text-gray-400" data-translate="AddNewRoomNoteItem">Note About Room (optional)</span>
                 <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some short note about transaction."></textarea>
               </label>
 
             </form>
           </div>
           <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-            <button @click="closeModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+            <button @click="closeModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray" data-translate="NewRoomCancelBtn">
               Cancel
             </button>
-            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="NewRoomAddBtn">
               Add
             </button>
           </footer>

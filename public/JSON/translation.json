@@ -1,4 +1,34 @@
 {
+    "Menubar": {
+        "MenubarTitleItem": {
+            "mar": "महालक्ष्मी स्टोअर्स",
+            "eng": "Mahalakshami Stores"
+        },
+        "MenubarHomeItem": {
+            "mar": "होम",
+            "eng": "Home"
+        },
+        "MenubarRoomsItem": {
+            "mar": "रूम्स",
+            "eng": "Rooms"
+        },
+        "MenubarTenantsItem": {
+            "mar": "टेनंटस",
+            "eng": "Tenants"
+        },
+        "MenubarSettingsItem": {
+            "mar": "सेटीन्ग्स",
+            "eng": "Settings"
+        },
+        "MenubarLogoutItem": {
+            "mar": "लॉग आऊट",
+            "eng": "Log out"
+        },
+        "MenubarMedicoItem": {
+            "mar": "मेडिको",
+            "eng": "Go to Medico"
+        }
+    },
     "index": {
         "addNewTxnBtn": {
             "mar": "नवीन व्यवहार जोडा",
@@ -131,7 +161,7 @@
             "mar": "जमा भाडे"
         },
         "OngoingReading": {
-            "eng": "OngoingReading",
+            "eng": "Ongoing Reading",
             "mar": "चालू रेड़ीन्ग"
         },
         "PrevReading": {
@@ -159,6 +189,38 @@
         "AddNewRoomBtn": {
             "eng": "Add New Room",
             "mar": "नवीन खोली जोडा"
+        },
+        "RoomsCardModalHeader": {
+            "eng": "New Room Details",
+            "mar": "नवीन खोली तपशील"
+        },
+        "RoomNum": {
+            "eng": "Enter room number",
+            "mar": "खोली क्रमांक टाका"
+        },
+        "RoomType": {
+            "eng": "Room Type",
+            "mar": "खोली प्रकार"
+        },
+        "TenantCapacity": {
+            "eng": "Enter tenant capacity",
+            "mar": "भाडेकरू क्षमता टाका"
+        },
+        "DepositAmt": {
+            "eng": "Enter Deposit Amount",
+            "mar": "ठेव रक्कम टाका"
+        },
+        "AddNewRoomNoteItem": {
+            "eng": "Note About Room(optional)",
+            "mar": "खोलीबद्दल टीप (पर्यायी)"
+        },
+        "NewRoomCancelBtn": {
+            "eng": "Cancel",
+            "mar": "रद्द करा"
+        },
+        "NewRoomAddBtn": {
+            "eng": "Add",
+            "mar": "जोडा"
         },
         "AllRooms": {
             "eng": "All Rooms",
@@ -246,13 +308,109 @@
             "eng": "No",
             "mar": "नाही"
         },
-        "SubmitBtn": {
-            "eng": "Submit",
-            "mar": "सबमीट "
+        "AddBtn": {
+            "eng": "Add",
+            "mar": "जोडा"
         },
         "CancelBtn": {
             "eng": "Cancel",
             "mar": "रद्द करा"
+        }
+    },
+    "ADD NEW TRANSACTION ONCLICK OF VIEW STARTS HERE(USER PROFILE PAGE)": {},
+    "customer_details": {
+        "addNewTxnBtn": {
+            "mar": "नवीन व्यवहार जोडा",
+            "eng": "Add New Transaction"
+        },
+        "DownloadBtn": {
+            "mar": "डाउनलोड करा",
+            "eng": "Download"
+        },
+        "TxnModalTitle": {
+            "eng": "Transaction",
+            "mar": "व्यवहार"
+        },
+        "TxnAccumulatedRent": {
+            "eng": "Accumulated Rent",
+            "mar": "जमा भाडे"
+        },
+        "OngoingReading": {
+            "eng": "Ongoing Reading",
+            "mar": "चालू रेड़ीन्ग"
+        },
+        "PrevReading": {
+            "eng": "Previous Reading",
+            "mar": "मागील रेड़ीन्ग"
+        },
+        "AmtDeposited": {
+            "eng": "Amount Deposited",
+            "mar": "जमा केलेली रक्कम"
+        },
+        "Note": {
+            "eng": "Note About Deposit (optional)",
+            "mar": "ठेवीबद्दल टीप (पर्यायी)"
+        },
+        "CancelBtn": {
+            "eng": "Cancel",
+            "mar": "रद्द करा"
+        },
+        "AddBtn": {
+            "eng": "Add",
+            "mar": "जोडा"
+        }
+    },
+    "customer_list": {
+        "AllCustomers": {
+            "eng": "All Customers",
+            "mar": "सर्व ग्राहक"
+        },
+        "AddNewCustBtn": {
+            "eng": "Add New Customer",
+            "mar": "नवीन ग्राहक जोडा"
+        },
+        "CustomerInputSearchBox": {
+            "eng": "Search for customer",
+            "mar": "ग्राहक शोधा"
+        }
+    },
+    "MASTER PAGE STARTS HERE": {},
+    "settings": {
+        "SettingsRoomTab": {
+            "eng": "Room",
+            "mar": "खोली"
+        },
+        "SettingsTenantTab": {
+            "eng": "Tenant",
+            "mar": "भाडेकरू"
+        },
+        "SettingsMeterTab": {
+            "eng": "Meter",
+            "mar": "मीटर"
+        },
+        "SettingsCardHeader": {
+            "eng": "Room Settings",
+            "mar": "खोली सेटिंग्ज"
+        },
+        "SettingsRoomTypeItem": {
+            "eng": "Add Room Type",
+            "mar": "खोलीचा प्रकार जोडा"
+        },
+        "SettingsAddRoomDepositAmt": {
+            "eng": "Add Room Deposit Amount",
+            "mar": "खोली ठेव रक्कम जोडा"
+        },
+        "SettingsAddRTBtn": {
+            "eng": "Add",
+            "mar": "जोडा"
+        },
+        "SettingsAddRoomDepositAmtBtn": {
+            "eng": "Add",
+            "mar": "जोडा"
+        },
+        "SettingsCurrentDepositAmt": {
+            "eng": "Current Deposit Ammount for Single room :",
+            "mar": "सिंगल रूमसाठी चालू ठेव रक्कम:"
         }
     }
 }

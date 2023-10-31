@@ -11,6 +11,8 @@
   <script src="./assets/js/init-alpine.js"></script>
   <script src="./assets/js/focus-trap.js" defer></script>
   <script src="./pages/js/validation.js"></script>
+  <script src="./pages/js/main.js"></script>
+
   <link rel="stylesheet" href="./style.css">
   <style>
     .tab {
@@ -68,13 +70,13 @@
             <!-- Tabs -->
             <div class="mb-4 my-6 ">
               <ul class="flex text-sm text-semibold font-medium text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <li x-on:click="activeTab = 1" :class="{ 'bg-gray-200': activeTab === 1 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;">
+                <li x-on:click="activeTab = 1" :class="{ 'bg-gray-200': activeTab === 1 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;" data-translate="SettingsRoomTab">
                   Room
                 </li>
-                <li x-on:click="activeTab = 2" :class="{ 'bg-gray-200': activeTab === 2 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;">
+                <li x-on:click="activeTab = 2" :class="{ 'bg-gray-200': activeTab === 2 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;" data-translate="SettingsTenantTab">
                   Tenant
                 </li>
-                <li x-on:click="activeTab = 3" :class="{ 'bg-gray-200': activeTab === 3 }" class="py-2 px-4 rounded-tr-lg tab" style="cursor: pointer;">
+                <li x-on:click="activeTab = 3" :class="{ 'bg-gray-200': activeTab === 3 }" class="py-2 px-4 rounded-tr-lg tab" style="cursor: pointer;" data-translate="SettingsMeterTab">
                   Meter
                 </li>
               </ul>
@@ -83,11 +85,11 @@
             <!-- Tab Content -->
             <div x-show="activeTab === 1" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <!-- Form 1 -->
-              <h1 class="text-xl font-semibold mb-4 dark:text-gray-300">Room Settings</h1>
+              <h1 class="text-xl font-semibold mb-4 dark:text-gray-300" data-translate="SettingsCardHeader">Room Settings</h1>
               <!-- Add your form fields here -->
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
-                  <span class="px-4 text-gray-700 dark:text-gray-400">Add Room Type<span class="text-red-600 font-bold">*</span></span></span>
+                  <span class="px-4 text-gray-700 dark:text-gray-400" data-translate="SettingsRoomTypeItem">Add Room Type<span class="text-red-600 font-bold">*</span></span></span>
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
@@ -96,7 +98,7 @@
                     </div>
 
                     <div class="w-full md:w-1/2 px-4">
-                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" id="AddRoomTypeBtn">Add</button>
+                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" data-translate="SettingsAddRTBtn" id="AddRoomTypeBtn">Add</button>
                     </div>
                   </div>
 
@@ -111,7 +113,7 @@
                 </div>
 
                 <div class="w-full md:w-1/2 px-4">
-                  <span class="px-4 text-gray-700 dark:text-gray-400">Add Room Deposit Amount<span class="text-red-600 font-bold">*</span></span>
+                  <span class="px-4 text-gray-700 dark:text-gray-400" data-translate="SettingsAddRoomDepositAmt">Add Room Deposit Amount<span class="text-red-600 font-bold">*</span></span>
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
@@ -120,13 +122,13 @@
                     </div>
 
                     <div class="w-full md:w-1/2 px-4">
-                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" id="AddUpdateDepositBtn">Add</button>
+                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" data-translate="SettingsAddRoomDepositAmtBtn" id="AddUpdateDepositBtn">Add</button>
                     </div>
                   </div>
                   <div class="flex flex-wrap -mx-4  mb-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <span class=" text-gray-700 dark:text-gray-400">Current Deposit Ammount for Single room :</span>
+                        <span class=" text-gray-700 dark:text-gray-400" data-translate="SettingsCurrentDepositAmt">Current Deposit Ammount for Single room :</span>
                       </label>
                     </div>
                     <div class="w-full md:w-1/2 px-4">
@@ -269,6 +271,9 @@
       }
     })
   })
+
+
+
   $('#AddRoomTypeBtn').on('click', function() {
     Swal.fire({
       title: 'Are you sure?',
