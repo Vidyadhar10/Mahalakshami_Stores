@@ -5,7 +5,7 @@ $response = array();
 
 $query = mysqli_query($con, "SELECT
     (SELECT COUNT(*) FROM recent_transactions WHERE DATE(`datetime`) = CURDATE()) AS TodaysTxnCount,
-    (SELECT SUM(pendingAmt) FROM users) AS totalPendAmt,
+    (SELECT SUM(pendingAmt) FROM recent_transactions) AS totalPendAmt,
     (SELECT COUNT(*) FROM users WHERE isAdmin <> 1 AND isAuthorized = 1) AS TotCustCount,
     (SELECT COUNT(*) FROM rooms) AS TotRoomsCount;");
 
