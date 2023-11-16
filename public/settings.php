@@ -1,3 +1,6 @@
+<?php
+include './php/handleSession.php';
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -18,6 +21,12 @@
   <link rel="stylesheet" href="./style.css">
 
   <style>
+    /* .swal2-popup {
+      background-color: #000;
+      color: #fff;
+    } */
+
+
     .tab {
       position: relative;
       overflow: hidden;
@@ -56,6 +65,8 @@
     $HomeActiveTextColor = '';
     $ActiveCustomerBar = "";
     $CustomerActiveTextColor = '';
+    $ActiveRequestBar = '';
+    $RequestActiveTextColor = '';
     $ActiveRoomsBar = "";
     $RoomActiveTextColor = '';
     $ActiveSettingsBar = "<span class='absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg' aria-hidden='true'></span>";
@@ -92,11 +103,14 @@
               <!-- Add your form fields here -->
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4">
-                  <span class="px-4 text-gray-700 dark:text-gray-400" data-translate="SettingsRoomTypeItem">Add Room Type<span class="text-red-600 font-bold">*</span></span></span>
+                  <span class="px-4 text-gray-700 dark:text-gray-400" data-translate="SettingsRoomTypeItem">Add Room Type<span class="text-red-600 font-bold">*</span></span>
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="bachelors/family..." />
+                        <input type="text" id="room-type-inputbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="bachelors/family..." />
+                        <span class="text-xs text-red-600 dark:text-red-400 hidden" id="room-type-invalid">
+                          Room type should not be empty!.
+                        </span>
                       </label>
                     </div>
 
@@ -120,7 +134,7 @@
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <input type="text" style="text-align: right;" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
+                        <input type="text" maxlength="5" id="RentAmtInputBox" oninput="InputNumberOnly(this.id)" style="text-align: right;" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
                       </label>
                     </div>
 
@@ -151,7 +165,7 @@
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="2" />
+                        <input type="text" id="numOfFloorsInputBox" oninput="InputNumberOnly(this.id)" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="2" />
                       </label>
                     </div>
 
@@ -180,7 +194,7 @@
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <input type="text" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="6" />
+                        <input type="text" id="numbOfFloorInputBox" oninput="InputNumberOnly(this.id)" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="6" />
                       </label>
                     </div>
 
@@ -223,7 +237,7 @@
                   <div class="flex flex-wrap -mx-4">
                     <div class="w-full md:w-1/2 px-4">
                       <label class="block text-sm mb-2">
-                        <input type="text" maxlength="5" oninput="InputNumberOnly(this.id)" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="10" />
+                        <input type="text" maxlength="5" id="meterRateInputBox" oninput="InputNumberOnly(this.id)" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" style="text-align: right;" placeholder="10" />
                       </label>
                     </div>
 
@@ -293,6 +307,12 @@
         </div>
       </main>
 
+      <!-- preloader here  -->
+      <div id="preloader" class="preloader-container">
+        <div class="preloader"></div>
+      </div>
+
+
     </div>
   </div>
 </body>
@@ -303,20 +323,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script src="./pages/js/main.js"></script>
+<script src="./pages/js/validation.js"></script>
 <script>
   GetMasterDataAll();
-  $('#AddUpdateDepositBtn').on('click', function() {
+
+  function ToggleMasterData(SaveType, inputValue) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: "Add/Update this data!",
       icon: 'warning',
+      // width: "400px",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
-      // confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
-      // denyButtonClass: "btn btn-danger w-xs mt-2",
-      // buttonsStyling: !1,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      customClass: {
+        confirmButton: 'bg-purple-600 text-white  px-4 py-2 rounded-md',
+        cancelButton: "bg-red-600 text-white ml-2 px-4 py-2 rounded-md",
+      },
+      buttonsStyling: !1,
       focusConfirm: true,
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -328,79 +352,50 @@
       }
     }).then((result) => {
       if (result.isConfirmed) {
+        //function backend
         Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
+          'Updated',
+          'Your data has been updated successfully!',
           'success'
         )
       }
     })
-  })
-
-
-
+  }
+  // for save room type
   $('#AddRoomTypeBtn').on('click', function() {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
-      // confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
-      // denyButtonClass: "btn btn-danger w-xs mt-2",
-      // buttonsStyling: !1,
-      focusConfirm: true,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      }
-    })
+    var value = $('#room-type-inputbox').val();
+    if (value != '') {
+      ToggleMasterData('roomType', value)
+      $('#room-type-invalid').addClass('hidden')
+    } else {
+      $('#room-type-invalid').removeClass('hidden')
+    }
   })
+
+  // for updating deposit amount
+  $('#AddUpdateDepositBtn').on('click', function() {
+    var value = $('#depoAmtInputBox').val();
+    ToggleMasterData('roomType', value)
+  })
+
+  //for number of floors
+  $('#AddUpdateTotalNumOfFloorsBtn').on('click', function() {
+    var value = $('#numOfFloorsInputBox').val();
+    ToggleMasterData('roomType', value)
+  })
+
+  // for number of rooms on each floor
+  $('#AddUpdateNumOfRoomsBtn').on('click', function() {
+    var value = $('#room-type-inputbox').val();
+    ToggleMasterData('roomType', value)
+  })
+
+  //for meter rate
   $('#AddMeterRateBtn').on('click', function() {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
-      // confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
-      // denyButtonClass: "btn btn-danger w-xs mt-2",
-      // buttonsStyling: !1,
-      focusConfirm: true,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      }
-    })
+    var value = $('#room-type-inputbox').val();
+    ToggleMasterData('roomType', value)
   })
+  ShowNotifications('<?php echo $userID; ?>');
 </script>
 <!-- <script>
   $(document).ready(function() {

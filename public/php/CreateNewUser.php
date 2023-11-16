@@ -14,13 +14,25 @@ if (isset($_POST['mobnumber']) && isset($_POST['PasswordText'])) {
     $result = mysqli_query($con, "INSERT INTO `users` (`Mobile_No`,`Password`)
     VALUES ('$uname','$pass')");
 
+
+
+
+
     if ($result) {
-        $response = array(
-            "success" => true
-        );
+        $getID = mysqli_query($con, "SELECT ID FROM users ORDER BY ID DESC LIMIT 1;");
+        $row = mysqli_fetch_assoc($getID);
+        $thisUserID = $row['ID'];
+
+        $requestInsertQ = mysqli_query($con, "INSERT INTO requests (userID) values ('$thisUserID');");
+        if ($requestInsertQ) {
+            $response = array(
+                "success" => true
+            );
+        }
     } else {
         $response = array(
-            "success" => false
+            "success" => false,
+            "message" => "mobile num already exists!"
         );
         die('Error: ' . mysqli_error($con));
     }

@@ -1,3 +1,6 @@
+<?php
+include './php/handleSession.php';
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -32,6 +35,9 @@
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
 
+    $ActiveRequestBar = '';
+    $RequestActiveTextColor = '';
+
     $ActiveSettingsBar = '';
     $SettingsActiveTextColor = '';
     include './php/header-asidebar.php';
@@ -44,32 +50,7 @@
       <main class="h-full overflow-y-auto">
         <div class="container px-6 mx-auto grid">
 
-          <!-- <div class="w-full mt-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex my-6 flex-col items-center pb-10">
-              <div class="relative hidden w-9 h-9 mr-3 rounded-full md:block">
-                <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
-                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-              <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
-              <div class="flex mt-4 space-x-3 md:mt-6">
-                <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Address :</span>
-                <span class="text-sm text-gray-500 dark:text-gray-400">Korochi</span>
-              </div>
-              <div class="flex mt-2 space-x-3 md:mt-6">
-                <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Mobile Number :</span>
-                <span class="text-sm text-gray-500 dark:text-gray-400" id="mobileNumber">7875910170</span>
-              </div>
-              <div class="flex mt-2 space-x-3 md:mt-6">
-                <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Customer added date :</span>
-                <span class="text-sm text-gray-500 dark:text-gray-400" id="mobileNumber">10/03/2023</span>
-              </div>
-              <div class="flex mt-4 space-x-3 md:mt-6">
-                <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send Notification</a>
-                <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" id="callButton">Make A Call</a>
-              </div>
-            </div>
-          </div> -->
+
           <div class="w-full mt-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <form class="p-6">
               <div class="flex justify-start my-6 flex-col md:flex-row items-center pb-10">
@@ -80,11 +61,11 @@
                 </div>
                 <!-- Right Column -->
                 <div class="md:w-1/2 md:ml-4 ml-4">
-                  <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-                  <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+                  <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" id="userName"></h5>
+                  <span class="text-sm text-gray-500 dark:text-gray-400" id="userDesignation">Visual Designer</span>
                   <div class="flex mt-4 space-x-3 md:mt-6">
                     <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Address:</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Korochi</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400" id="userAddress">Korochi</span>
                   </div>
                   <div class="flex mt-2 space-x-3 md:mt-6">
                     <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Mobile Number:</span>
@@ -92,7 +73,7 @@
                   </div>
                   <div class="flex mt-2 space-x-3 md:mt-6">
                     <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Customer Added Date:</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">10/03/2023</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400" id="userAddedDate">10/03/2023</span>
                   </div>
                   <div class="flex mt-4 space-x-3 md:mt-6">
                     <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send Notification</a>
@@ -102,7 +83,7 @@
                 </div>
 
 
-                <div class="md:w-1/2 md:ml-4 ml-8">
+                <div class="md:w-1/2 md:ml-4">
                   <div class="flex mt-2 space-x-3 md:mt-6">
                     <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Documents Uploaded</h5>
                   </div>
@@ -118,11 +99,9 @@
 
         </div>
 
-        <div class="container px-6 mx-auto ">
+        <!-- <div class="container px-6 mx-auto ">
 
-          <!-- <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300">
-            All Customers
-          </h4> -->
+          
           <div class="px-2 my-6 py-2 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div class="" style="display:flex; align-items:center; justify-content:right;">
               <a href="#" @click="openModal" data-translate="addNewTxnBtn" class="inline-flex mb-6 mt-2 mr-2  items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
@@ -192,7 +171,6 @@
                   Showing 21-30 of 100
                 </span>
                 <span class="col-span-2"></span>
-                <!-- Pagination -->
                 <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
                   <nav aria-label="Table navigation">
                     <ul class="inline-flex items-center">
@@ -252,85 +230,27 @@
           </div>
 
 
-        </div>
+        </div> -->
       </main>
 
-      <!-- add txn modal start  -->
-      <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-        <!-- Modal -->
-        <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0  transform translate-y-1/2" @keydown.escape="closeModal" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
-          <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-          <header class="flex justify-end">
-            <button class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700" aria-label="close" @click="closeModal">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-                <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path>
-              </svg>
-            </button>
-          </header>
-          <!-- Modal body -->
-          <div class="mt-4 mb-6">
-            <!-- Modal title -->
-            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300" data-translate="TxnModalTitle">
-              Transaction
-            </p>
-            <!-- Modal description -->
-            <form>
-              <div class="flex flex-wrap -mx-4">
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400" data-translate="TxnAccumulatedRent">Accumulated Rent (जमा भाडे) <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400" data-translate="OngoingReading">Ongoing Reading (चालू रेड़ीन्ग) <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap -mx-4">
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400" data-translate="PrevReading">Previous Reading (मागील रेड़ीन्ग)</span>
-                    <input type="number" disabled class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400" data-translate="AmtDeposited">Amount Deposited (अमाऊंट जमा) <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-              </div>
-
-              <label class="block text-sm mb-2 px-4">
-                <span class="text-gray-700 dark:text-gray-400" data-translate="Note">Note About Deposit (optional)</span>
-                <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some short note about transaction."></textarea>
-              </label>
-
-            </form>
-          </div>
-          <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-            <button @click="closeModal" data-translate="CancelBtn" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-              Cancel
-            </button>
-            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="AddBtn">
-              Add
-            </button>
-          </footer>
-        </div>
+      <!-- preloader here  -->
+      <div id="preloader" class="preloader-container">
+        <div class="preloader"></div>
       </div>
-      <!-- add txn modal end  -->
 
     </div>
   </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- sweet alert cdn  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
+<!-- ajax cdn  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- moment.js cdn  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="./pages/js/main.js"></script>
 <script>
   $(document).ready(function() {
     $("#callButton").on("click", function() {
@@ -343,7 +263,9 @@
         alert("Calling is supported on mobile devices only.");
       }
     });
+    ShowTenantProfileData('<?php echo $_GET['usrid']; ?>')
   });
+  ShowNotifications('<?php echo $userID; ?>');
 </script>
 
 </html>

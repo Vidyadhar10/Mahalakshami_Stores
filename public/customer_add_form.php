@@ -1,3 +1,6 @@
+<?php
+include './php/handleSession.php';
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -13,9 +16,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
   <script src="./assets/js/charts-lines.js" defer></script>
   <script src="./assets/js/charts-pie.js" defer></script>
-  <script src="./pages/js/main.js"></script>
   <link rel="stylesheet" href="./style.css">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link id="fontStyleForLanguage" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
 
 
 </head>
@@ -32,6 +37,9 @@
 
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
+
+    $ActiveRequestBar = '';
+    $RequestActiveTextColor = '';
 
     $ActiveSettingsBar = '';
     $SettingsActiveTextColor = '';
@@ -91,9 +99,6 @@
                 </div>
               </div>
             </div>
-
-
-
 
             <div class="flex flex-wrap -mx-4">
               <div class="w-full md:w-1/2 ">
@@ -182,20 +187,21 @@
             <a href="./customer_list.php" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" data-translate="CancelBtn">Cancel</a>
 
           </div>
-
-
         </div>
-
-
       </main>
+
+      <!-- preloader here  -->
+      <div id="preloader" class="preloader-container">
+        <div class="preloader"></div>
+      </div>
     </div>
   </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./pages/js/main.js"></script>
 
 <script>
-
-
+  ShowNotifications('<?php echo $userID; ?>');
 </script>
 
 </html>

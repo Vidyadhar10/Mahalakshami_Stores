@@ -36,9 +36,12 @@
       <!-- language toggler  -->
       <li class="flex" x-data="{ eng: true, mar: false }">
         <button class="rounded-md focus:outline-none focus:shadow-outline-purple" onclick="ToggleLanguageBtn()">
-          <template x-if="eng">
-            <img src="./images/lang-eng.png" id="languageIconImg" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
-          </template>
+          <div class="premium-container">
+            <template x-if="eng">
+              <img src="./images/lang-eng.png" class="premium" id="languageIconImg" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
+            </template>
+            <img src="./images/premium_crown.png" class="premiumIconOnHeader" height="10" width="10" style="color: #6c2bd9;" alt="" srcset="">
+          </div>
           <!-- <template x-if="mar">
             <img src="./images/lang-mar.png" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
           </template> -->
@@ -62,24 +65,26 @@
 
       <!-- Notifications menu -->
       <li class="relative">
-        <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu" aria-label="Notifications" aria-haspopup="true">
+        <button onclick="ShowNotificationModal('<?php echo $userID; ?>')" class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu" aria-label="Notifications" aria-haspopup="true">
           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
             </path>
           </svg>
-          <span aria-hidden="true" class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
+          <div id="newNotificationDot">
+            <span aria-hidden="true" class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
+          </div>
         </button>
-        <template x-if="isNotificationsMenuOpen">
+        <!-- <template x-if="isNotificationsMenuOpen">
           <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click.away="closeNotificationsMenu" @keydown.escape="closeNotificationsMenu" class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
             <li class="flex">
-              <a id="openModalAnchor" class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="#" onclick="ShowNotificationModal()">
+              <a id="openModalAnchor" class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="#">
                 <span>Messages</span><br>
-                <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
+                <span id="msgCountValueSpan" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
                   10
                 </span>
               </a>
             </li>
-            <!-- <li class="flex">
+            <li class="flex">
               <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="#">
                 <span>Sales</span>
                 <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
@@ -91,14 +96,14 @@
               <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="#">
                 <span>Alerts</span>
               </a>
-            </li> -->
+            </li>
           </ul>
-        </template>
+        </template> -->
       </li>
       <!-- Profile menu -->
       <li class="relative">
         <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none" @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
-          <img class="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82" alt="" aria-hidden="true" />
+          <img class="object-cover w-8 h-8 rounded-full" src="<?php echo $propPhoto; ?>" alt="" aria-hidden="true" />
         </button>
         <template x-if="isProfileMenuOpen">
           <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu" class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700" aria-label="submenu">
@@ -157,52 +162,38 @@
           Messages
         </p>
         <!-- Modal description -->
-        <hr class="mt-2 mb-2">
-        <p class="text-sm text-gray-700 dark:text-gray-400 flex gap-2">
-          <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
-            eligendi repudiandae voluptatem tempore!</span>
-          <span>
-            <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600" style="white-space: nowrap;">
-              10 mins ago
+        <div id="notificationsDiv">
+
+          <hr class="mt-2 mb-2">
+          <p class="text-sm text-gray-700 dark:text-gray-400 flex gap-2">
+            <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
+              eligendi repudiandae voluptatem tempore!</span>
+            <span>
+              <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600" style="white-space: nowrap;">
+                10 mins ago
+              </span>
             </span>
-          </span>
-        </p>
-        <hr class="mt-2 mb-2">
-        <p class="text-sm text-gray-700 dark:text-gray-400 flex">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
-          eligendi repudiandae voluptatem tempore!
-          <span>
-            <span style="white-space: nowrap;" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">10
-              mins ago</span>
-          </span>
-        </p>
-        <hr class="mt-2 mb-2">
-        <p class="text-sm text-gray-700 dark:text-gray-400">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
-          eligendi repudiandae voluptatem tempore!
-        </p>
-        <hr class="mt-2 mb-2">
-        <p class="text-sm text-gray-700 dark:text-gray-400">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
-          eligendi repudiandae voluptatem tempore!
-        </p>
-        <hr class="mt-2 mb-2">
-        <p class="text-sm text-gray-700 dark:text-gray-400">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
-          eligendi repudiandae voluptatem tempore!
-        </p>
+          </p>
+          <hr class="mt-2 mb-2">
+          <p class="text-sm text-gray-700 dark:text-gray-400 flex">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nostrum et
+            eligendi repudiandae voluptatem tempore!
+            <span>
+              <span style="white-space: nowrap;" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">10
+                mins ago</span>
+            </span>
+          </p>
+        </div>
+
       </div>
-      <!-- <footer
-                    class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-2 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-                    <button @click="isModalOpen = false"
-                        class="w-full px-3 py-1 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                        Cancel
-                    </button>
-                    <button
-                        class="w-full px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                        Accept
-                    </button>
-                </footer> -->
+      <!-- <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-2 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+        <button @click="isModalOpen = false" class="w-full px-3 py-1 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
+          Cancel
+        </button>
+        <button class="w-full px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+          Accept
+        </button>
+      </footer> -->
     </div>
   </div>
 </div>

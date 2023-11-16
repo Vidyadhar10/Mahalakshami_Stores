@@ -1,10 +1,5 @@
 <?php
-session_start();
-if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
-  $userID = $_SESSION['UserID'];
-} else {
-  header('location:./php/logout.php');
-}
+include './php/handleSession.php';
 ?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
@@ -24,17 +19,9 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
   <script src="./assets/js/charts-pie.js" defer></script>
   <link rel="stylesheet" href="./style.css">
 
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Tiro Devanagari Marathi', serif;
-    }
-  </style> -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+  <link id="fontStyleForLanguage" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
 
 
 </head>
@@ -47,6 +34,8 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
     $HomeActiveTextColor = 'text-gray-800';
     $ActiveCustomerBar = '';
     $CustomerActiveTextColor = '';
+    $ActiveRequestBar = '';
+    $RequestActiveTextColor = '';
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
     $ActiveSettingsBar = '';
@@ -66,7 +55,6 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
           <div class="container px-6 mx-auto grid">
             <div class="my-6 grid gap-6 mb:grid-cols-2 xl:grid-cols-12">
               <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-
                 <div class="flex items-end justify-end w-full">
                   <button @click="openModal" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="addNewTxnBtn">
                     <span class="ml-2" aria-hidden="true">+</span> Add new Transaction
@@ -312,9 +300,10 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                       <th class="px-4 py-3" data-translate="TxnHisTableSrNo">Sr No</th>
                       <th class="px-4 py-3" data-translate="TxnHisTableRentDate">Rent Given date</th>
-                      <th class="px-4 py-3" data-translate="TxnHisTableOngoingReading">Ongoing Reading (चालू रेड़ीन्ग)</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTablePreviousReading">Previous Meter Reading</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableOngoingReading">Ongoing Meter Reading</th>
                       <th class="px-4 py-3" data-translate="TxnHisTableElectricityBill">Electricity Bill</th>
-                      <th class="px-4 py-3" data-translate="TxnHisTableRent">Rent(भाडे)</th>
+                      <th class="px-4 py-3" data-translate="TxnHisTableRent">Rent</th>
                       <th class="px-4 py-3" data-translate="TxnHisTableRentToBePaid">Total Rent to be paid</th>
                       <th class="px-4 py-3" data-translate="TxnHisTableNote">Accumulated Rent</th>
                       <th class="px-4 py-3" data-translate="TxnHisTablePendingAmt">Pending Amount</th>
@@ -322,31 +311,7 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="20">
-                        1
-                      </td>
-                      <td class="px-4 py-3 text-sm" width="100">
-                        06-10-2023
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        150
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        150 x 9 = <span class="font-semibold">1350</span>
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        2500
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        2500 + 1350 = <span class="font-semibold">3850</span>
-                      </td>
 
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        ₹ 890
-                      </td>
-                      <td class="px-4 py-3 text-sm" style="text-align: right;">
-                        3850 - 3000 = <span class="font-semibold text-red-700">850</span>
-                      </td>
                     </tr>
                   </tbody>
                   <tfoot class="bg-gray-50 dark:bg-gray-800 ">
@@ -379,6 +344,39 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
         <!-- section for unauthorized User -->
         <section class="unauthorizedUserView">
           <div class="container px-6 mx-auto ">
+            <div class="my-6 p-3 bg-white popupCard rounded-lg shadow-xs dark:bg-gray-800 relative">
+              <div class="flex items-center justify-between">
+                <div>
+                  <!-- Your notification message -->
+                  <p class="text-sm text-gray-700 dark:text-gray-400">
+                    Your account has been created successfully. Please update your profile first before proceeding to the rooms.
+                  </p>
+                </div>
+                <div>
+                  <!-- redirect to profilePage -->
+                  <button class="text-green-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white focus:outline-none" onclick="window.location.href='./profile-page.php'">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5">
+                      </path>
+                    </svg>
+                  </button>
+                  <!-- Close button with cross mark -->
+                  <button class="text-red-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white focus:outline-none" onclick="closeNotification()">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <script>
+              function closeNotification() {
+                // Add logic to hide or remove the notification
+                document.querySelector('.popupCard').style.display = 'none';
+              }
+            </script>
 
             <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300" data-translate="AllRooms">
               All Rooms
@@ -685,7 +683,7 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
                 <span class="text-gray-700 dark:text-gray-400" data-translate="SelectedCust">
                   Selected Customer <span class="text-red-600 font-bold">*</span>
                 </span>
-                <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                <select id="ModalCustomerList" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                   <option selected>Select</option>
                   <option>Vivek Yadav (#38)</option>
                   <option>Subhan Mullani (#21)</option>
@@ -729,6 +727,12 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
         </div>
       </div>
 
+      <!-- preloader here  -->
+      <div id="preloader" class="preloader-container">
+        <div class="preloader"></div>
+      </div>
+
+
     </div>
   </div>
 </body>
@@ -753,7 +757,7 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
       $('.adminView').css('display', 'none')
       $('.unauthorizedUserView').css('display', 'none')
       $('.authorizedUserView').css('display', 'block')
-      ShowUserDashbordData('<?php echo $userID; ?>')
+      ShowUserDashbordData('<?php echo $userID; ?>', '<?php echo $roomNo; ?>')
       ShowUserTxnHistoryData('<?php echo $userID; ?>')
     <?php
     }
@@ -765,13 +769,12 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['AdminStatus'])) {
 
     ShowAdminDashbordCardsData()
     ShowRecentTransactionsDetails()
+    ShowCustListWithPrevReadingDD('ModalCustomerList')
 
   <?php
   }
   ?>
-</script>
-<script>
-
+  ShowNotifications('<?php echo $userID; ?>');
 </script>
 
 </html>

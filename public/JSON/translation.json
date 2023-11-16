@@ -25,8 +25,8 @@
             "eng": "Log out"
         },
         "MenubarMedicoItem": {
-            "mar": "मेडिको",
-            "eng": "Go to Medico"
+            "mar": "मेडिको <span class='ml-2' aria-hidden='true'><svg class='w-5 h-5' aria-hidden='true' fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' stroke='currentColor'><path d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5'></path></svg></span>",
+            "eng": "Go to Medico <span class='ml-2' aria-hidden='true'><svg class='w-5 h-5' aria-hidden='true' fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' stroke='currentColor'><path d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5'></path></svg></span>"
         }
     },
     "index": {
@@ -194,8 +194,8 @@
             "eng": "New Room Details",
             "mar": "नवीन खोली तपशील"
         },
-        "RoomNum": {
-            "eng": "Enter room number",
+        "RoomNumModalForm": {
+            "eng": "Enter room numbers",
             "mar": "खोली क्रमांक टाका"
         },
         "RoomType": {
@@ -393,7 +393,7 @@
             "mar": "खोली सेटिंग्ज"
         },
         "SettingsRoomTypeItem": {
-            "eng": "Add Room Type",
+            "eng": "Add Room Type<span class='text-red-600 font-bold'>*</span>",
             "mar": "खोलीचा प्रकार जोडा"
         },
         "SettingsAddRoomDepositAmt": {

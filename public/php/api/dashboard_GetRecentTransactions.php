@@ -3,9 +3,9 @@ include '../connection.php';
 
 
 $query = mysqli_query($con, "SELECT u.*, rt.cust_id, rt.datetime, rt.amt_paid
-    FROM `recent_transactions` AS rt
+    FROM `transactions` AS rt
     INNER JOIN users AS u
-    ON u.ID = rt.cust_id
+    ON u.Room_No = rt.txn_of_room_no
     WHERE u.isAdmin <> 1
     ORDER BY rt.datetime DESC;");
 while ($row = $query->fetch_assoc()) {

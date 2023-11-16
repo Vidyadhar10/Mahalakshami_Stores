@@ -1,3 +1,6 @@
+<?php
+include './php/handleSession.php';
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -30,6 +33,9 @@
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
 
+    $ActiveRequestBar = '';
+    $RequestActiveTextColor = '';
+
     $ActiveSettingsBar = '';
     $SettingsActiveTextColor = '';
     include './php/header-asidebar.php';
@@ -41,40 +47,163 @@
       ?>
       <main class="h-full overflow-y-auto">
         <div class="container px-6 my-6 mx-auto grid">
-          <div class="w-full mt-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+          <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <form class="p-6">
-              <div class="flex justify-between my-6 flex-col md:flex-row items-center pb-10">
-                <!-- Left Column -->
-                <div class="relative w-full mb-4" id="profileImg">
-                  <img class="object-cover w-full h-full" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg4fQ" alt="" loading="lazy" />
+              <div class="flex flex-col md:flex-row items-center">
+                <!-- Left Column (Profile Image) -->
+                <div class="relative w-full mb-4 md:w-1/2 md:mb-0" id="profileImg" style="width: 315px; height: 210px;">
+                  <img id="profileImgBox" class="object-cover w-full h-full" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg4fQ" alt="Profile Image" loading="lazy" />
                   <div class="absolute inset-0 shadow-inner" aria-hidden="true"></div>
-                </div>
-                <!-- Right Column -->
-                <div class="md:w-1/2 md:ml-4 ml-4">
-                  <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-                  <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
-                  <div class="flex mt-4 space-x-3 md:mt-6">
-                    <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Address:</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Korochi</span>
-                  </div>
-                  <div class="flex mt-2 space-x-3 md:mt-6">
-                    <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Mobile Number:</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400" id="mobileNumber">7875910170</span>
-                  </div>
-                  <div class="flex mt-2 space-x-3 md:mt-6">
-                    <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Customer Added Date:</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">10/03/2023</span>
-                  </div>
-                  <div class="flex mt-4 space-x-3 md:mt-6">
-                    <!-- <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Details</a> -->
-                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" id="UpdatePasswordBtn">Update Password</a>
+                  <div class="absolute inset-0 flex items-start justify-end p-2">
+                    <!-- Camera Icon from Heroicons -->
+                    <svg id="uploadImgIcon" style="cursor: pointer;" class="h-6 w-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-500 transition duration-300 ease-in-out" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <!-- <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path> -->
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"></path>
+                    </svg>
                   </div>
                 </div>
 
+                <!-- Right Column (User Details) -->
+                <div class="md:w-1/2 md:ml-4 ml-4">
+                  <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" id="userName">Bonnie Green</h5>
+                  <span class="text-sm text-gray-500 dark:text-gray-400" id="userDesignation">Visual Designer</span>
+                  <div class="flex mt-4 space-x-3">
+                    <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Address:</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400" id="userAddress">Korochi</span>
+                  </div>
+                  <div class="flex mt-2 space-x-3">
+                    <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Mobile Number:</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400" id="mobileNumber"></span>
+                  </div>
+                  <div class="flex mt-2 space-x-3">
+                    <span class="text-sm text-gray-500 font-medium dark:text-gray-400">Customer Added Date:</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400" id="userAddedDate">10/03/2023</span>
+                  </div>
+                  <div class="flex mt-4 space-x-3">
+                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" id="UpdateDetailsBtn">Update Details</a>
+                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" id="UpdatePasswordBtn">Update Password</a>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
 
+        </div>
+
+        <div class="container px-6 mb-6 mx-auto grid" id="update-details-card" style="display: none;">
+
+          <div class="w-full  max-w-md bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto p-3">
+
+            <div class="flex flex-wrap -mx-4">
+              <div class="w-full md:w-1/2 ">
+                <div class="flex flex-wrap -mx-4">
+                  <div class="w-full md:w-1/2 px-4">
+                    <!-- Name -->
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="Name">Name<span class="text-red-600 font-bold">*</span></span>
+                      <input id="userNameInput" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe" required />
+                    </label>
+                  </div>
+                  <div class="w-full md:w-1/2 px-4">
+                    <!-- Email -->
+                    <label class="block text-sm" da>
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="email">Email</span>
+                      <input id="userEmailInput" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" type="email" placeholder="jane@example.com" />
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="w-full md:w-1/2">
+                <div class="flex flex-wrap -mx-4">
+                  <div class="w-full md:w-1/2 px-4">
+                    <!-- Designation -->
+                    <label class="block  text-sm">
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="Designation">Designation</span>
+                      <input id="userDesignationInput" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Designer" required />
+                    </label>
+                  </div>
+                  <div class="w-full md:w-1/2 px-4">
+                    <!-- Mobile Number -->
+                    <label class="block  text-sm">
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="MobileNum">Mobile Number</span>
+                      <input id="userMobileInput" disabled class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123-456-7890" required />
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap -mx-4">
+              <div class="w-full md:w-1/2 ">
+                <!-- Address -->
+                <label class="block mt-4 px-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400" data-translate="Address">Address <span class="text-red-600 font-bold">*</span></span>
+                  <textarea id="userAddressInput" rows="1" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter Address"></textarea>
+                </label>
+              </div>
+              <div class="w-full md:w-1/2 ">
+                <!-- <div class="flex flex-wrap -mx-4">
+                  <div class="w-full md:w-1/2 px-4">
+                    <label class="block mt-4 text-sm">
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="AccountNum">Account Number <span class="text-red-600 font-bold">*</span></span>
+                      <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="123" required />
+                    </label>
+                  </div>
+                  <div class="w-full md:w-1/2 px-4">
+                    <label class="block mt-4 text-sm">
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="SelectRoomNum">
+                        Select Room Number<span class="text-red-600 font-bold">*</span>
+                      </span>
+                      <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                      </select>
+                    </label>
+                  </div>
+                </div> -->
+              </div>
+
+            </div>
+
+            <div class="flex flex-wrap -mx-4">
+              <div class="w-full md:w-1/2 px-4">
+                <!-- Documents Upload -->
+                <label class="block mt-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400" data-translate="UploadDoc">Upload Documents <span class="text-red-600 font-bold">*</span></span>
+                  <input type="file" multiple class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".pdf, .doc, .docx, .jpg, .jpeg" required />
+                </label>
+              </div>
+              <div class="w-full md:w-1/2 px-4">
+                <!-- Photo upload  -->
+                <label class="block mt-4  text-sm">
+                  <span class="text-gray-700 dark:text-gray-400" data-translate="UploadPhoto">Upload Photo<span class="text-red-600 font-bold">*</span></span>
+                  <input type="file" id="uploadImgIconInput" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input" accept=".jpg, .png" required />
+                </label>
+              </div>
+            </div>
+            <!-- Terms and Conditions -->
+            <div class="mt-6 px-4 text-sm">
+              <label class="flex items-center dark:text-gray-400">
+                <input type="checkbox" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required />
+                <span class="ml-2">
+                  I agree to the
+                  <a href="./terms_and_conditions.php"><span class="underline">terms and conditions</span></a>
+                </span>
+              </label>
+            </div>
+
+            <!-- Submit Button -->
+            <button class="mt-6 bg-purple-600 text-white ml-4  text-sm font-medium py-2 px-4 rounded-lg hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="UpdateProfileDataBtn">Update</button>
+            <!-- <a href="./customer_list.php" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700" data-translate="CancelBtn">Cancel</a> -->
+
+          </div>
         </div>
 
         <div class="container px-6 my-6 mx-auto" id="passwordupdatecard" style="display: none;">
@@ -109,7 +238,6 @@
                       <span class="text-gray-700 dark:text-gray-400">Confirm Password<span class="text-red-600 font-bold">*</span></span>
                       <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="********" />
                     </label>
-
                   </div>
                 </div>
               </div>
@@ -123,105 +251,87 @@
         </div>
       </main>
 
-      <!-- add txn modal start  -->
-      <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
-        <!-- Modal -->
-        <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0  transform translate-y-1/2" @keydown.escape="closeModal" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
-          <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
-          <header class="flex justify-end">
-            <button class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700" aria-label="close" @click="closeModal">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-                <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path>
-              </svg>
-            </button>
-          </header>
-          <!-- Modal body -->
-          <div class="mt-4 mb-6">
-            <!-- Modal title -->
-            <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-              Transaction
-            </p>
-            <!-- Modal description -->
-            <form>
-              <div class="flex flex-wrap -mx-4">
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Accumulated Rent (जमा भाडे) <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Ongoing Reading (चालू रेड़ीन्ग) <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap -mx-4">
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Previous Reading (मागील रेड़ीन्ग)</span>
-                    <input type="number" disabled class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-
-                <div class="w-full md:w-1/2 px-4">
-                  <label class="block text-sm mb-2">
-                    <span class="text-gray-700 dark:text-gray-400">Amount Deposited (अमाऊंट जमा) <span class="text-red-600 font-bold">*</span></span>
-                    <input type="number" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount In Rs (₹)" />
-                  </label>
-                </div>
-              </div>
-
-              <label class="block text-sm mb-2 px-4">
-                <span class="text-gray-700 dark:text-gray-400">Note About Deposit (optional)</span>
-                <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some short note about transaction."></textarea>
-              </label>
-
-            </form>
-          </div>
-          <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-            <button @click="closeModal" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-              Cancel
-            </button>
-            <button class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-              Add
-            </button>
-          </footer>
-        </div>
+      <!-- preloader here  -->
+      <div id="preloader" class="preloader-container">
+        <div class="preloader"></div>
       </div>
-      <!-- add txn modal end  -->
+
 
     </div>
   </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script>
-  $(document).ready(function() {
-    $("#callButton").on("click", function() {
-      // Check if it's a mobile device
-      if (/Mobi|Android/i.test(navigator.userAgent)) {
-        // Replace '1234567890' with your phone number
-        window.location.href = `tel:+91 ${parseInt($('#mobileNumber').text())}`;
-      } else {
-        // Handle non-mobile devices or perform a different action
-        alert("Calling is supported on mobile devices only.");
-      }
-    });
-  });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- sweet alert cdn  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
+<!-- ajax cdn  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- moment.js cdn  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="./pages/js/main.js"></script>
 <script>
   $(document).ready(function() {
     $("#UpdatePasswordBtn").on("click", function() {
       $('#passwordupdatecard').css('display', 'block');
+      $('#update-details-card').css('display', 'none');
+      $(this).removeClass('text-gray-900 bg-white hover:bg-gray-100').addClass('text-white bg-purple-600')
+      $('#UpdateDetailsBtn').addClass('text-gray-900 bg-white hover:bg-gray-100').removeClass('text-white bg-purple-600')
+
     });
+    $("#UpdateDetailsBtn").on("click", function() {
+      $('#passwordupdatecard').css('display', 'none');
+      $('#update-details-card').css('display', 'block');
+      $(this).removeClass('text-gray-900 bg-white hover:bg-gray-100').addClass('text-white bg-purple-600')
+      $('#UpdatePasswordBtn').addClass('text-gray-900 bg-white hover:bg-gray-100').removeClass('text-white bg-purple-600')
+
+    });
+    ShowTenantProfileData('<?php echo $userID; ?>')
+    ShowNotifications('<?php echo $userID; ?>');
+
+
+    $('#uploadImgIcon').on('click', function() {
+      $('#uploadImgIconInput').click();
+    })
+
+    $('#uploadImgIconInput').on('change', function() {
+      if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#profileImgBox').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
+
   });
 </script>
+<script>
+  <?php
+  if ($_SESSION['AdminStatus'] == 0) {
+    if ($_SESSION['isAuthorized'] == 0) {
+  ?>
+      $('.adminView').css('display', 'none')
+      $('.unauthorizedUserView').css('display', 'block')
+      $('.authorizedUserView').css('display', 'none')
+    <?php
+    } else {
+    ?>
+      $('.adminView').css('display', 'none')
+      $('.unauthorizedUserView').css('display', 'none')
+      $('.authorizedUserView').css('display', 'block')
+    <?php
+    }
+  } else {
+    ?>
+    $('.adminView').css('display', 'block')
+    $('.unauthorizedUserView').css('display', 'none')
+    $('.authorizedUserView').css('display', 'none')
 
+  <?php
+  }
+  ?>
+</script>
 
 </html>

@@ -24,6 +24,9 @@ if (isset($_POST['mobnumber']) && isset($_POST['PasswordText'])) {
             $_SESSION['AdminStatus'] = $row['isAdmin'];
             $_SESSION['UserID'] = $row['ID'];
             $_SESSION['isAuthorized'] = $row['isAuthorized'];
+            $_SESSION['roomNo'] = $row['Room_No'];
+            $_SESSION['profilephoto'] =  $row['Profile_Photo'] != null ? $row['Profile_Photo'] : 'images/users/user-blank.jpg';
+
 
             $response = array(
                 "success" => true
