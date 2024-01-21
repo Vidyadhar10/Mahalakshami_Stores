@@ -1,45 +1,75 @@
+//code for checking internet connection 
+function checkInternetConnection() {
+    fetch('php/googleUrl.php')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                // throw new Error('Internet is not connected');
+                document.getElementById('no-internet-section').style.display = "";
+                document.getElementById('main-body').style.display = "none";
+            } else {
+                // console.log('Internet is connected');
+            }
+        });
+}
+
+// Call the function to check the internet connection
+checkInternetConnection();
+
 // preloader stops when page loads completely
 document.addEventListener("DOMContentLoaded", function () {
     // Remove the preloader when the content is loaded
     document.getElementById("preloader").style.display = "none";
 });
 
-// notification modal showing js 
-function ShowNotificationModal(id) {
-    var modalDiv = document.getElementById("notificationDiv");
-    modalDiv.__x.$data.isModalOpen = true;
-    $.ajax({
-        url: 'php/api/notifications_MarkAsRead.php',
-        type: 'POST',
-        datatype: 'JSON',
-        data: {
-            uid: id
-        },
-        success: function (data) {
-            if (data.success) {
-                //marked as read all notifications
-                ShowNotifications(id);
-            }
+// full screen icon with size toggle 
+function togglefullscreen() {
+    if (!document.fullscreenElement) {
+        var fullScrLI = document.getElementById("fullScrIcon");
+        fullScrLI.__x.$data.full = true;
+        // If the page is not in full-screen mode, request full screen
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
         }
-    })
+    } else {
+        var fullScrLI = document.getElementById("fullScrIcon");
+        fullScrLI.__x.$data.full = false;
+        // If the page is in full-screen mode, exit full screen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
 }
 
-// Set the default language to English and store it in localStorage
-if (!localStorage.getItem('language')) {
-    localStorage.setItem('language', 'eng');
-}
+
 // language toggler 
-function ToggleLanguageBtn() {
-    var currentLang = localStorage.getItem('language');
+function ToggleLanguageBtn(lang) {
+    var currentLang = lang;
+    var supportedLanguages = ['eng', 'mar', 'fr', 'es']; // Add more languages as needed
+
+    // Find the index of the current language in the array
+    var currentIndex = supportedLanguages.indexOf(currentLang);
 
     // Update the image source based on the selected language
-    if (currentLang === 'eng') {
-        currentLang = 'mar';
-        var newSrc = './images/lang-mar.png';
+    if (currentIndex === -1 || currentIndex === supportedLanguages.length - 1) {
+        currentLang = supportedLanguages[0];
     } else {
-        var newSrc = './images/lang-eng.png';
-        currentLang = 'eng';
+        currentLang = supportedLanguages[currentIndex];
     }
+
+    var newSrc = './images/lang-' + currentLang + '.png';
     languageChosen(currentLang);
 
     $('#languageIconImg').attr('src', newSrc);
@@ -47,19 +77,23 @@ function ToggleLanguageBtn() {
 }
 
 $(document).ready(function () {
+    // Set the default language to English and store it in localStorage
+    if (!localStorage.getItem('language')) {
+        localStorage.setItem('language', 'eng');
+    }
+
     // Initialize the language icon based on the stored language
     var storedLanguage = localStorage.getItem('language');
-    if (storedLanguage === 'eng') {
-        $('#languageIconImg').attr('src', './images/lang-eng.png');
-    } else {
-        $('#languageIconImg').attr('src', './images/lang-mar.png');
-    }
+    var languageIconSrc = './images/lang-' + storedLanguage + '.png';
+    $('#languageIconImg').attr('src', languageIconSrc);
     languageChosen(storedLanguage);
+    toggleFontStyle(storedLanguage)
 })
+
 
 //show language chosen appropriate
 function languageChosen(lang) {
-    toggleFontStyle()
+    toggleFontStyle(lang)
     var url = window.location.href;
     var parts = url.split('/');
     var filenameWithQuery = parts[parts.length - 1];
@@ -88,42 +122,49 @@ function languageChosen(lang) {
                     if (key == 'roomsInputSearchBox') {
                         $(this).attr('placeholder', `${translations[pageName][key][lang]}`)
                     }
-                }
-            });
-        }
-        if (translations[pageName]) {
-            // Iterate through elements with data-translate attribute
-            $('[data-translate]').each(function () {
-                var key = $(this).data('translate');
-                if (translations[pageName][key] && translations[pageName][key][lang]) {
-                    // Update the element's content with the translation
-                    $(this).html(translations[pageName][key][lang]);
-
-
                     if (key == 'CustomerInputSearchBox') {
                         $(this).attr('placeholder', `${translations[pageName][key][lang]}`)
                     }
                 }
             });
         }
+        // if (translations[pageName]) {
+        //     // Iterate through elements with data-translate attribute
+        //     $('[data-translate]').each(function () {
+        //         var key = $(this).data('translate');
+        //         if (translations[pageName][key] && translations[pageName][key][lang]) {
+        //             // Update the element's content with the translation
+        //             $(this).html(translations[pageName][key][lang]);
+
+
+
+        //         }
+        //     });
+        // }
     });
 }
-var activeFontLink = 0; // 0 represents the first link, 1 represents the second link
-var fontLinks = [
-    "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap",
-    "https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap"
-];
-function toggleFontStyle() {
-    activeFontLink = 1 - activeFontLink; // Toggle between 0 and 1
+
+
+var fontLinks = {
+    'eng': "https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap",
+    'mar': "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&display=swap",
+    // Add more font links for other languages as needed
+};
+
+var activeFontLang = 'eng'; // Default font language
+
+function toggleFontStyle(lang) {
+    // Toggle the font language
+    activeFontLang = lang;
 
     // Remove the current font link
     $('#fontStyleForLanguage').remove();
 
     // Add the selected font link to the head
-    $('head').append('<link id="fontStyleForLanguage" rel="stylesheet" href="' + fontLinks[activeFontLink] + '">');
+    $('head').append('<link id="fontStyleForLanguage" rel="stylesheet" href="' + fontLinks[activeFontLang] + '">');
 
     // Apply the font-family style to the body
-    if (activeFontLink === 0) {
+    if (activeFontLang === 'mar') {
         $('body').css('font-family', "'Tiro Devanagari Marathi', serif");
     } else {
         $('body').css('font-family', "'Nunito', serif");
@@ -365,11 +406,32 @@ function ShowNotifications(userID) {
     });
 }
 
+// notification modal showing js also with mark as seen
+function ShowNotificationModal(id) {
+    var modalDiv = document.getElementById("notificationDiv");
+    modalDiv.__x.$data.isModalOpen = true;
+    $.ajax({
+        url: 'php/api/notifications_MarkAsRead.php',
+        type: 'POST',
+        datatype: 'JSON',
+        data: {
+            uid: id
+        },
+        success: function (data) {
+            if (data.success) {
+                //marked as read all notifications
+                ShowNotifications(id);
+            }
+        }
+    })
+}
+
 
 // AdminSide
 // 	1. ShowAdminDashbordCardsData()
 // 	2. ShowRecentTransactionsDetails()
 // 	3. ShowCustomerListWithPreviousReadingForDropdown()
+//  4. Check admin has added locations or not
 
 
 function ShowAdminDashbordCardsData() {
@@ -379,7 +441,7 @@ function ShowAdminDashbordCardsData() {
         datatype: "JSON",
         success: function (data) {
             $('#adminTodaysTxnCount').text(data.TodaysTxnCount);
-            $('#adminTotalPendAmt').text(data.totalPendAmt);
+            $('#adminTotalPendAmt').text(data.totalPendAmt == null ? 0 : data.totalPendAmt);
             $('#adminTotCustCount').text(data.TotCustCount);
             $('#adminTotRoomsCount').text(data.TotRoomsCount);
         }
@@ -398,23 +460,30 @@ function ShowRecentTransactionsDetails() {
             // console.log(data);
             $('#DashRecentTxnTable tbody').empty();
             var srno = 1;
-
+            if (data.length == 0) {
+                var noDataFound = `<tr class="text-gray-700 dark:text-gray-400">
+                                        <td colspan="7" class="px-4 py-3 text-sm font-semibold" style="text-align: center;" width="20">
+                                            No Records Found!
+                                        </td>
+                                    </tr>`
+                $('#DashRecentTxnTable tbody').append(noDataFound);
+            }
             $.each(data, function (index, item) {
+                var profilePhotoImg = item.Profile_Photo == null ? 'images/users/user-blank.jpg' : item.Profile_Photo;
+                var profilePhotoCss = item.Profile_Photo == null ? 'filter: saturate(23) hue-rotate(4739deg) brightness(95%) contrast(94%);' : '';
+
                 var Trow = `<tr class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="20">
                                     ${srno++}
                                 </td>
                                 <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
-                                    ${item.AccNo}
-                                </td>
-                                <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
-                                    ${item.Room_No}
+                                ${item.Floor_No.split(' ').map(word => word.charAt(0)).join('')}-${item.Room_No}
                                 </td>
                                 <td class="px-4 py-3">
                                 <div class="flex items-center text-sm">
                                     <!-- Avatar with inset shadow -->
                                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                        <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
+                                        <img class="object-cover w-full h-full rounded-full" src="${profilePhotoImg}" style="${profilePhotoCss}" alt="" loading="lazy" />
                                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                     </div>
                                     <div>
@@ -459,6 +528,317 @@ function ShowCustListWithPrevReadingDD(DD_id) {
     });
 }
 
+function ResidencyDetailsAdded() {
+    $.ajax({
+        url: "php/api/dashboard_IsLocationExists.php",
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            // Process data and update the user's password
+            if (!data.success) {
+                const driver = window.driver.js.driver;
+
+                const driverObj = driver({
+                    // showProgress: true,
+                    allowClose: false,
+                    overlayClickNext: false,
+                    animate: true,
+                });
+                driverObj.highlight({
+                    element: '#locationPopUpDiv',
+                    popover: {
+                        title: 'Add residency location details first!',
+                        description: 'Please add details of your residency (e.g. name, address), then move to admin menus.',
+                        side: "left",
+                        align: 'end',
+                    }
+                });
+
+                $('#add-loc-details-Modal').on('click', function () {
+                    driverObj.destroy();
+                })
+            } else {
+                $('#locationPopUpDiv').addClass('hidden')
+            }
+        }
+    });
+}
+
+function SaveLocationDetails() {
+
+    $.ajax({
+        url: "php/api/admin_SaveLocation.php",
+        type: "POST",
+        datatype: "JSON",
+        data: {
+            res_name: $('#res_name').val(),
+            address_input: $('#Address-input-box').val(),
+            stateDropDown: $('#stateDropDown').val(),
+            districtInput: $('#districtInput').val(),
+            CityInput: $('#CityInput').val(),
+            pincodeInput: $('#pincodeInput').val(),
+        },
+        success: function (data) {
+            if (data.success) {
+                Swal.fire(
+                    'Added!',
+                    'Location Details Added Successfully!',
+                    'success'
+                )
+                closeAddRoomModal('addLocationDetailsModal')
+                ResidencyDetailsAdded()
+            } else {
+                Swal.fire(
+                    'Error!',
+                    'Error while adding location details!',
+                    'Error'
+                )
+            }
+        }
+    });
+}
+
+function UpdateProfileDetailsHighlight() {
+    $.ajax({
+        url: "php/api/dashboard_IsUpdatedProile.php",
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            // Process data and update the user's password
+            if (!data.success) {
+                const driver = window.driver.js.driver;
+
+                const driverObj = driver({
+                    animate: true,
+                });
+                driverObj.highlight({
+                    element: '#profileNotUpdatedDiv',
+                    popover: {
+                        title: 'Add profile details first!',
+                        description: 'Please add profile details (e.g. name, address, documents), then proceed for the rooms.',
+                        side: "left",
+                        align: 'end',
+                    }
+                });
+
+
+            } else {
+                $('#profileNotUpdatedDiv').addClass('hidden')
+            }
+        }
+    });
+}
+
+//geo location permission functions
+$('#serachNearbyBtn').on('click', function () {
+    $('#loadingCircleOnSearchNearby').css('display', '')
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+})
+function showPosition(position) {
+    // Use reverse geocoding to get the city based on the coordinates
+    reverseGeocode(position.coords.latitude, position.coords.longitude, function (city) {
+        // Fill the input field with the obtained city
+        document.getElementById('location-search-input').value = city;
+        $('#loadingCircleOnSearchNearby').css('display', 'none')
+
+        // Trigger the input event manually
+        var inputEvent = new Event('input');
+        document.getElementById('location-search-input').dispatchEvent(inputEvent);
+
+    });
+}
+
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+    }
+}
+
+function reverseGeocode(latitude, longitude, callback) {
+    // Use OpenCage Geocoding API to get the city based on coordinates
+    var api_key = '0a3e970f819442c8a3bacfaf516d5eaa';
+    var api_url = 'https://api.opencagedata.com/geocode/v1/json';
+    var query = latitude + ',' + longitude;
+
+    var request_url = api_url +
+        '?' +
+        'key=' + api_key +
+        '&q=' + encodeURIComponent(query) +
+        '&pretty=1' +
+        '&no_annotations=1';
+
+    fetch(request_url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                const city = data.results[0].components.city;
+                callback(city);
+            } else {
+                alert("City information not available.");
+            }
+        })
+        .catch(error => {
+            console.error('Error during reverse geocoding:', error);
+        });
+}
+
+function ShowResidenciesCards() {
+    $.ajax({
+        url: "php/api/dashboard_GetResidenciesCardsData.php",
+        type: "POST",
+        dataType: "JSON",
+        success: function (data) {
+            const districtData = {};
+
+            data.forEach(item => {
+                const districtID = item.district;
+                districtData[districtID] = districtData[districtID] || [];
+                districtData[districtID].push(item);
+            });
+
+            $('#residencies_state_wise').empty();
+            $.each(districtData, function (district, items) {
+                const distString = `<div class="districtwise">
+                    <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300 district-name" data-translate="">
+                        ${items[0].district_name}
+                    </h4>
+                    <div class="swiper-container grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4" style="overflow: hidden;">
+                        <div class="swiper-wrapper" id="${items[0].district_name}"></div>
+                    </div>
+                </div>`;
+                $('#residencies_state_wise').append(distString);
+
+                items.forEach(innerItem => {
+                    const rating_color = (innerItem.average_ratings || 0) > 3.5
+                        ? 'green'
+                        : (innerItem.average_ratings || 0) > 2
+                            ? 'yellow'
+                            : 'red';
+
+                    const res_cardString = `<div class="swiper-slide">
+                        <div class="flex flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                            <div class="w-full px-4 mb-2">
+                                <p class="text-xl font-semibold text-gray-700 dark:text-gray-300 residency-name">
+                                    ${innerItem.residency_name}
+                                </p>
+                            </div>
+                            <!-- Star Ratings -->
+                            <div class="w-1/2 md:w-1/2 px-4 mb-2">
+                              <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="StarRatings">
+                                Star Ratings
+                              </p>
+                            </div>
+                            <div class="w-1/2 md:w-1/2 px-4 mb-2">
+                              <div class="flex items-center">
+                                <span class="text-sm font-semibold text-${rating_color}-700">${innerItem.average_ratings == null ? 0 : innerItem.average_ratings}</span>
+                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">(Out of 5)</span>
+                              </div>
+                            </div>
+    
+                            <!-- Location/Address -->
+                            <div class="w-full px-4 mb-2">
+                              <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="Location">
+                                Location/Address
+                              </p>
+                            </div>
+                            <div class="w-full px-4 mb-2">
+                              <p class="text-sm font-semibold text-gray-700 dark:text-gray-200 address">
+                                ${innerItem.address}
+                              </p>
+                            </div>
+    
+                            <!-- Additional Details -->
+                            <div class="w-full px-4 mb-2">
+                              <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="OtherDetails">
+                                Other Details
+                              </p>
+                            </div>
+                            <div class="w-full px-4 mb-2">
+                              <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                - Free Wi-Fi<br>
+                                - Swimming Pool<br>
+                                - Parking Available
+                              </p>
+                            </div>
+                            <button onclick="window.location.href='./rooms_on_location.php?admid=${btoa(innerItem.admin_id)}'" class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'" data-translate="ViewBtn">
+                                View
+                            </button>
+                        </div>
+                    </div>`;
+                    $(`#${items[0].district_name}`).append(res_cardString);
+                });
+            });
+
+            // Initialize Swiper
+            new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                breakpoints: {
+                    640: { slidesPerView: 1 },
+                    768: { slidesPerView: 2 },
+                    1024: { slidesPerView: 4 },
+                },
+                autoplay: { delay: 5000 },
+            });
+
+            //location wise search 
+            $("#location-search-input").on("input", function () {
+                var searchText = $(this).val().toLowerCase();
+
+                $("#residencies_state_wise .districtwise").each(function () {
+                    var districtContainer = $(this);
+                    var districtName = districtContainer.find(".district-name").text().toLowerCase();
+
+                    // Check individual cards for residency name or address
+                    var showCard = districtContainer.find(".swiper-slide").toArray().some(function (card) {
+                        var residencyName = $(card).find(".residency-name").text().toLowerCase();
+                        var address = $(card).find(".address").text().toLowerCase();
+
+                        return residencyName.includes(searchText) || address.includes(searchText);
+                    });
+
+                    // Show or hide the entire districtwise container based on the search result for residency name, address, or district
+                    var showDistrict = districtName.includes(searchText) || showCard || searchText.length === 0;
+                    districtContainer.toggle(showDistrict);
+
+                    if (showDistrict) {
+                        // If the district is found or there's a matching card, show all individual cards
+                        districtContainer.find(".swiper-slide").show();
+                        $(this).find(".swiper-slide").each(function () {
+                            var residencyName = $(this).find(".residency-name").text().toLowerCase();
+                            var address = $(this).find(".address").text().toLowerCase();
+
+                            // Show or hide individual card based on the search result for residency name, district, or address
+                            var showCard = residencyName.includes(searchText) || districtName.includes(searchText) || address.includes(searchText);
+                            $(this).toggle(showCard);
+                        });
+                    } else {
+                        districtContainer.find(".swiper-slide").hide();
+                    }
+                });
+            });
+
+
+        }
+    });
+}
+
+
 // UserSide
 // 	1. ShowUserDashbordData()
 // 	2. ShowUserTransactionData(userID)
@@ -497,7 +877,7 @@ function ShowUserTxnHistoryData(userID) {
             var totalPendingAmt = 0;
             if (data.length == 0) {
                 var noDataFound = `<tr class="text-gray-700 dark:text-gray-400">
-                                        <td colspan="8" class="px-4 py-3 text-sm font-semibold" style="text-align: center;" width="20">
+                                        <td colspan="9" class="px-4 py-3 text-sm font-semibold" style="text-align: center;" width="20">
                                             No Records Found!
                                         </td>
                                     </tr>`
@@ -595,25 +975,81 @@ function ShowUserTxnHistoryData(userID) {
 // 	1. showCardsData()
 // 	2. GetRoomTypeForDropdown()
 // 	3. AddNewRoomToDB()
-function showRoomsCardsData() {
+function showRoomsCardsData(para, isadmin) {
     $.ajax({
         url: "php/api/rooms_GetRoomCardsData.php",
         type: "POST",
         datatype: "JSON",
+        data: {
+            admid: para,
+        },
         success: function (data) {
             // console.log(data);
             $('#roomCardsDiv').empty();
+
             $.each(data, function (ind, item) {
+                if (isadmin == 1) {
+                    var appropriateBtns = `<button onclick="window.location.href='./customer_list.php?roomid=${item.ID}'"
+                                                class="py-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                                                data-translate="ViewBtn">
+                                                View
+                                            </button>`;
+                } else {
+                    var urlParams = new URLSearchParams(window.location.search);
+
+                    appropriateBtns = `<button onclick="BookReqForRoom(${item.ID}, ${atob(urlParams.get('admid'))})"
+                                            class="py-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                                            data-translate="ViewBtn">
+                                            Book
+                                        </button>
+                                        <button
+                                            class="flex items-center justify-between ml-2 px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                                            aria-label="Like">
+                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                clip-rule="evenodd" fill-rule="evenodd"></path>
+                                            </svg>
+                                        </button>`;
+                }
+
+                var imgArr = item.room_images == null ? [] : item.room_images.split(';');
+
                 //iterate
-                var cardString = ` <div class="flex roomCard flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                                        <div class="w-full  px-4 mb-2">
-                                        <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400" data-translate="RoomDetails">
-                                            Room Details
-                                        </h4>
+                var cardString = ` 
+                                    <!-- Card -->
+                                    <div class="relative roomCard bg-white rounded-lg shadow-md dark:bg-gray-800 overflow-hidden">
+                                    <!-- Swiper -->
+                                    <div class="swiper-container">
+                                        <div class="swiper-wrapper">`
+                // imgArr.forEach(element => {
+                cardString += `<!-- Image 1 -->
+                                        <div class="swiper-slide">
+                                            <a href="assets/img/create-account-office-dark.jpeg" data-baguettebox="gallery"
+                                            data-caption="Caption for Image 1">
+                                            <img src="assets/img/create-account-office-dark.jpeg" alt="Image 1"
+                                                class="w-full h-32 object-cover">
+                                            </a>
+                                        </div>`;
+                // });
+
+                cardString += `<!-- Image 2 -->
+                                        <div class="swiper-slide">
+                                            <a href="assets/img/dashboard.png" data-baguettebox="gallery" data-caption="Caption for Image 2">
+                                            <img src="assets/img/dashboard.png" alt="Image 2" class="w-full h-32 object-cover">
+                                            </a>
                                         </div>
+                                        </div>
+                                        <div class="swiper-wrapper">
+                                        <!-- Add Pagination -->
+                                        <div class="swiper-pagination"></div>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="flex  flex-wrap -mx-4 p-4">
                                         <div class="w-1/2 md:w-1/2 px-4 mb-2">
                                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="FloorNum">
-                                            Floor   
+                                            Floor
                                         </p>
                                         </div>
                                         <div class="w-1/2 md:w-1/2 px-4 mb-2">
@@ -621,9 +1057,10 @@ function showRoomsCardsData() {
                                             ${item.floorInwords}
                                         </p>
                                         </div>
+                                        <div class="w-full"></div>
                                         <div class="w-1/2 md:w-1/2 px-4 mb-2">
                                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomNum">
-                                            Room Number
+                                            Room No
                                         </p>
                                         </div>
                                         <div class="w-1/2 md:w-1/2 px-4 mb-2">
@@ -638,7 +1075,8 @@ function showRoomsCardsData() {
                                         </p>
                                         </div>
                                         <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                                        <span class="px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        <span
+                                            class="px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             ${item.room_type}
                                         </span>
                                         </div>
@@ -659,10 +1097,72 @@ function showRoomsCardsData() {
                                             ${item.available}
                                         </p>
                                         </div>
-                        
-                                        <button onclick="window.location.href='./customer_list.php?roomid=${item.ID}'" class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'" data-translate="ViewBtn">
-                                        View
+                                        <div class="w-full relative px-4 py-3 mb-2 dropdown-container" x-data="{ isPagesMenuOpen: false }"
+                                        x-instance="rentDetailsDropdown">
+                                        <button
+                                            class="inline-flex items-center dropdown-toggle-btn justify-between w-full text-sm font-semibold transition-colors duration-150 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200"
+                                             aria-haspopup="true">
+                                            <span class="inline-flex items-center">
+                                            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path
+                                                d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z">
+                                                </path>
+                                            </svg>
+                                            <span class="ml-4">Rent details</span>
+                                            </span>
+                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"></path>
+                                            </svg>
                                         </button>
+                                        <template x-if="isPagesMenuOpen" class="dropdown-menu">
+                                            <ul x-transition:enter="transition-all ease-in-out duration-300"
+                                            x-transition:enter-start="opacity-25 max-h-0" x-transition:enter-end="opacity-100 max-h-xl"
+                                            x-transition:leave="transition-all ease-in-out duration-300"
+                                            x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0"
+                                            class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                                            aria-label="submenu">
+                        
+                                            <div class="flex  flex-wrap px-2 py-1">
+                                                <div class="w-full flex flex-wrap justify-between">
+                                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomNum">
+                                                    Deposit Amount
+                                                </p>
+                                                <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                                    ${item.deposit_amt}
+                                                </p>
+                                                </div>
+                                                <div class="w-full"></div>
+                        
+                                                <div class="w-full flex flex-wrap justify-between">
+                                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomNum">
+                                                    Rent Amount
+                                                </p>
+                                                <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                                    ${item.room_rent}
+                                                </p>
+                                                </div>
+                                                <div class="w-full text-center mb-2 text-gray-700 dark:text-gray-200">
+                                                <hr class="">
+                                                </div>
+                                                <div class="w-full flex flex-wrap justify-between">
+                                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomNum">
+                                                    Total Amount
+                                                </p>
+                                                <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                                    ${parseInt(item.deposit_amt) + parseInt(item.room_rent)}
+                                                </p>
+                                                </div>
+                                            </div>
+                                            </ul>
+                                        </template>
+                                        </div>
+                                        <div class="w-full flex justify-between">
+                                            ${appropriateBtns}
+                                        </div>
+                                    </div>
                                     </div>`;
                 $('#roomCardsDiv').append(cardString)
             })
@@ -673,6 +1173,26 @@ function showRoomsCardsData() {
                 $("#roomCardsDiv .roomCard").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
                 });
+            });
+
+            // img swiper 
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: { delay: 5000 },
+            });
+            baguetteBox.run('.swiper-container', {
+                animation: 'slideIn',
+                noScrollbars: true,
+                buttons: true,
             });
         }
     });
@@ -744,7 +1264,66 @@ function AddNewRoomToDB(formData) {
         }
     });
 }
-
+function BookReqForRoom(rmid, admid) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "This action will send booking requests to the owner. Please note that you'll need to wait for confirmation.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        customClass: {
+            confirmButton: 'bg-purple-600 text-white  px-4 py-2 rounded-md',
+            cancelButton: "bg-red-600 text-white ml-2 px-4 py-2 rounded-md",
+        },
+        buttonsStyling: !1,
+        focusConfirm: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "php/api/requests_addRequestForRoom.php",
+                type: "POST",
+                datatype: "JSON",
+                data: {
+                    rmid: rmid,
+                    admid: admid
+                },
+                success: function (data) {
+                    // console.log(data);
+                    if (data.success) {
+                        Swal.fire(
+                            'Requested',
+                            `Your room request has been sent Successfully!`,
+                            'success'
+                        )
+                    } else {
+                        if (data.message) {
+                            Swal.fire(
+                                'Already Requested!',
+                                data.message,
+                                'warning'
+                            )
+                        } else {
+                            Swal.fire(
+                                'error',
+                                `Error while sending request!`,
+                                'error'
+                            )
+                        }
+                    }
+                }
+            });
+        }
+    });
+}
 // customer_list.php
 // 	1. ShowCustomerList()
 //  2. ShowCustomerAllTxnData()
@@ -771,8 +1350,8 @@ function ShowCustomersList(roomid) {
             $.each(data.userData, function (ind, item) {
 
                 if (!roomid) {
-                    var roomNoTr = `<td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
-                                        ${item.Room_No}
+                    var roomNoTr = `<td class="px-4 py-3 text-sm font-semibold" style="text-align: center;" width="100">
+                    ${item.floorInwords.split(' ').map(word => word.charAt(0)).join('')}-${item.Room_No}
                                     </td>`;
                     var pendingAmtTr = `<td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
                                         ${item.PendingAmt}
@@ -780,18 +1359,18 @@ function ShowCustomersList(roomid) {
                 } else {
                     var roomNoTr, pendingAmtTr = '';
                 }
+                var profilePhotoImg = item.Profile_Photo == null ? 'images/users/user-blank.jpg' : item.Profile_Photo;
+                var profilePhotoCss = item.Profile_Photo == null ? 'filter: saturate(23) hue-rotate(4739deg) brightness(95%) contrast(94%);' : '';
+
                 var tablerow = `  <tr class="text-gray-700 dark:text-gray-400">
                                         <td class="px-4 py-3 text-sm  font-semibold" style="text-align: right;" width="20">
                                             ${srno++}
-                                        </td>
-                                        <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="100">
-                                            ${item.Account_No}
                                         </td>
                                         ${roomNoTr}
                                         <td class="px-4 py-3">
                                         <div class="flex items-center text-sm">
                                             <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                                <img class="object-cover w-full h-full rounded-full" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy" />
+                                                <img class="object-cover w-full h-full rounded-full" src="${profilePhotoImg}" style="${profilePhotoCss}" alt="" loading="lazy" />
                                             <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                             </div>
                                             <div>
@@ -1040,6 +1619,7 @@ function ShowTenantProfileData(ID) {
             console.log(data);
             $.each(data, function (index, item) {
                 $('#profileImgBox').attr('src', item.Profile_Photo == null ? 'images/users/user-blank.jpg' : item.Profile_Photo)
+                    .css('filter', item.Profile_Photo == null ? 'saturate(23) hue-rotate(4739deg) brightness(95%) contrast(94%)' : '')
 
                 $('#userName').html(item.Name)
                 $('#userDesignation').html(item.Designation)
@@ -1057,8 +1637,6 @@ function ShowTenantProfileData(ID) {
     });
 }
 
-
-
 // setting.php
 // 	1.GetMasterDataAll()
 // 	2.Addroomtypedata()
@@ -1072,7 +1650,6 @@ function GetMasterDataAll() {
         datatype: "JSON",
         success: function (data) {
             // Process data and display room type data
-
             $('#room_type_badges').empty();
             $.each(data.room_type, function (index, item) {
                 var badgeStr = `<span class="px-2 py-1 ml-2 mt-2 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -1082,12 +1659,12 @@ function GetMasterDataAll() {
             })
 
             $('#fixedDepositAmt').empty();
-            $.each(data.room_depo, function (index, item) {
-                var badgeStr = `<span class="px-2 py-1  mt-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                                    ${item.deposit_amt}
-                                </span>`;
-                $('#fixedDepositAmt').append(badgeStr);
-            })
+            // $.each(data.room_depo, function (index, item) {
+            //     var badgeStr = `<span class="px-2 py-1  mt-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+            //                         ${item.deposit_amt}
+            //                     </span>`;
+            //     $('#fixedDepositAmt').append(badgeStr);
+            // })
 
             $('#numoffloors').empty();
             $.each(data.rooms_floors, function (index, item) {
@@ -1238,10 +1815,10 @@ function ShowAllRequests() {
                                                     ${item.floorInwords}
                                                 </td>
                                                 <td class="px-4 py-3 text-sm font-semibold" style="text-align: center;">
-                                                    ${item.room_num}
+                                                    ${item.room_no}
                                                 </td>
                                                 <td class="px-4 py-3 text-sm reqDate" style="text-align: right;">
-                                                    ${moment(item.datetime).format('DD-MM-YYYY')}
+                                                    ${moment(item.datetime).format('DD-MM-YYYY hh:mm A')}
                                                 </td>
                                                 <td class="px-4 py-3 text-sm" style="text-align: right;" width="285">
                                                 <button  class="px-3 callButton py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="RTxnRowViewBtn">
@@ -1329,4 +1906,174 @@ function approveDenyRequest(uid, task) {
         }
     });
 
+}
+
+// support.php
+// 1.Show all Issues
+function ShowAllIssues() {
+    $.ajax({
+        url: "php/api/support_GetIssueData.php",
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            $('#IssuesTable tbody').empty();
+
+            if (data.length <= 0) {
+                var NoDataRow = `<tr class="text-gray-700 dark:text-gray-400" >
+                                        <td class="px-4 py-3 text-sm font-semibold" colspan="9" style="text-align: center;">
+                                            No Issues Yet!
+                                        </td>
+                                      </tr>`;
+                $('#IssuesTable tbody').append(NoDataRow);
+            }
+            var srno = 1;
+            $.each(data, function (ind, item) {
+
+                var profilePhotoImg = item.Profile_Photo == null ? 'images/users/user-blank.jpg' : item.Profile_Photo;
+                var profilePhotoCss = item.Profile_Photo == null ? 'filter: saturate(23) hue-rotate(4739deg) brightness(95%) contrast(94%);' : '';
+                var IssueRows = `<tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3 text-sm font-semibold" style="text-align: right;" width="20">
+                                            ${srno++}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm font-semibold" style="text-align: left;" width="100">
+                                            ${item.title}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm font-semibold" style="text-align: left;" width="100">
+                                            ${item.category_name}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm" style="text-align: left; max-width: 300px; white-space: pre-wrap;">${item.description}</td>
+                                        <td class="px-4 py-3 text-xs">
+                                            <span class="px-2 py-1 font-semibold leading-tight text-${item.status == 0 ? 'red' : 'green'}-700 bg-${item.status == 0 ? 'red' : 'green'}-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                ${item.status == 0 ? 'Unresolved' : 'Resolved'}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm font-semibold" style="text-align: left; max-width: 300px; white-space: pre-wrap;">${item.resolution_remark == null ? '--' : item.resolution_remark}</td>
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                    <img class="object-cover w-full h-full rounded-full" src="${profilePhotoImg}" alt="" loading="lazy" style="${profilePhotoCss}" />
+                                                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">${item.Name}</p>
+                                                    <p class="text-xs text-gray-600 dark:text-gray-400">
+                                                        ${item.Designation}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            ${moment(item.raised_on).format('DD-MM-YYYY')}
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center space-x-2 text-sm">
+                                                ${item.status == 0 ? `<button id="${item.ID}" class="showEditDataInForm flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                                                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                                                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <button onclick="DeleteTheIssue(${item.ID})" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                                                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                                        </svg>
+                                                                    </button>` : ''}
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>`;
+
+                $('#IssuesTable tbody').append(IssueRows);
+            })
+            paginationWorking('IssuesTable');
+            $("#issue-search-input").on("keyup", function () {
+                var searchText = $(this).val().toLowerCase();
+                $("#IssuesTable tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+                });
+            });
+
+            $('.showEditDataInForm').on('click', function () {
+                $('#raiseNewIssueBtn').addClass('hidden')
+                $('#updateIssueBtn').removeClass('hidden')
+
+                var idofrow = $(this).attr('id');
+                var modalDiv = document.getElementById("addNewIssueModal");
+                modalDiv.__x.$data.isModalOpen = true;
+
+                $.each(data, function (index, row) {
+                    if (row.ID == idofrow) {
+
+                        $('#inputIssueTitle').val(row.title);
+                        $('#categoryDD').val(row.category);
+                        $('#IssueDescriptionInputBox').val(row.description);
+                    }
+                })
+                //update the details
+                $('#updateIssueBtn').on('click', function () {
+                    $.ajax({
+                        url: "php/api/support_UpdateIssue.php",
+                        type: "POST",
+                        datatype: "JSON",
+                        data: {
+                            rowid: idofrow,
+                            ititle: $('#inputIssueTitle').val(),
+                            icategory: $('#categoryDD').val(),
+                            idescription: $('#IssueDescriptionInputBox').val(),
+                        },
+                        success: function (data) {
+                            if (data.success) {
+                                Swal.fire(
+                                    'Issue Updated',
+                                    `Issue has been updated Successfully!`,
+                                    'success'
+                                )
+                                ShowAllIssues();
+                                $('.addRoomModalCloseBtn').click();
+                            }
+                        }
+                    });
+                })
+            })
+
+        }
+    });
+}
+
+function AddNewIssueToDB(uid) {
+    $.ajax({
+        url: "php/api/support_AddNewIssue.php",
+        type: "POST",
+        datatype: "JSON",
+        data: {
+            userID: uid,
+            ititle: $('#inputIssueTitle').val(),
+            icategory: $('#categoryDD').val(),
+            idescription: $('#IssueDescriptionInputBox').val(),
+        },
+        success: function (data) {
+            if (data.success) {
+                Swal.fire(
+                    'Issue Raised',
+                    `New issue has been raised Successfully!`,
+                    'success'
+                )
+                ShowAllIssues();
+            }
+        }
+    });
+}
+
+function ShowIssueCategoryDD() {
+    $.ajax({
+        url: "php/api/support_GetIssueDDList.php",
+        type: "POST",
+        datatype: "JSON",
+        success: function (data) {
+            $('#categoryDD').empty();
+            $.each(data, function (index, item) {
+                $('#categoryDD').append(item);
+            })
+        }
+    });
 }

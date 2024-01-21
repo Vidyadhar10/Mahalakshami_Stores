@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location-based Search</title>
+</head>
+
+<body>
+
+  <input type="text" id="cityInput" placeholder="Enter your city">
+  <button onclick="getLocation()">Get Location</button>
+
+  <script>
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showPosition(position) {
+      // Use reverse geocoding to get the city based on the coordinates
+      reverseGeocode(position.coords.latitude, position.coords.longitude, function (city) {
+        // Fill the input field with the obtained city
+        document.getElementById('cityInput').value = city;
+      });
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+
+    function reverseGeocode(latitude, longitude, callback) {
+      // Use OpenCage Geocoding API to get the city based on coordinates
+      var api_key = '0a3e970f819442c8a3bacfaf516d5eaa';
+      var api_url = 'https://api.opencagedata.com/geocode/v1/json';
+      var query = latitude + ',' + longitude;
+
+      var request_url = api_url +
+        '?' +
+        'key=' + api_key +
+        '&q=' + encodeURIComponent(query) +
+        '&pretty=1' +
+        '&no_annotations=1';
+
+      fetch(request_url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.results && data.results.length > 0) {
+            const city = data.results[0].components.city;
+            callback(city);
+          } else {
+            alert("City information not available.");
+          }
+        })
+        .catch(error => {
+          console.error('Error during reverse geocoding:', error);
+        });
+    }
+
+
+
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <script>
+    // Function to get user's IP address
+    function getIPAddress(callback) {
+      $.get("https://ipinfo.io?token=7bd12b53fa6a7d", function (response) {
+        callback(response.ip);
+      }, "json");
+    }
+
+    // Example of how to use the function
+    getIPAddress(function (ip) {
+      // Now you have the IP address, you can send it to your server for storage
+      console.log("User's IP address:", ip);
+
+      // Assuming you are using AJAX to send the IP to the server
+      $.ajax({
+        type: "POST",
+        url: "your-server-endpoint", // Replace with your server endpoint
+        data: { ip: ip },
+        success: function (response) {
+          console.log("IP address sent to server successfully");
+        },
+        error: function (error) {
+          console.error("Error sending IP address to server", error);
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

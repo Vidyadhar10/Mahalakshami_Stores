@@ -1,6 +1,8 @@
 <?php
+session_start();
 include '../connection.php';
 
+$userID = $_SESSION['UserID'];
 $response = array();
 
 $query = mysqli_query($con, "SELECT * FROM m_rooms_type;"); // Change this to select from a single table
@@ -13,40 +15,17 @@ if ($query) {
     }
 
     // Repeat the above process for other tables
-    $query = mysqli_query($con, "SELECT * FROM m_rooms_deposit;");
+    $query = mysqli_query($con, "SELECT * FROM m_default_settings WHERE userID = $userID;");
     if ($query) {
         while ($row = mysqli_fetch_assoc($query)) {
-            $result['room_depo'][] = $row;
+            $result['rooms_floors'][]['floors'] = $row['floors'];
+            $result['rooms_per_floor'][]['room_per_floor'] = $row['rooms_per_floor'];
+            $result['meter_rate'][]['rate'] = $row['meter_rate'];
         }
     } else {
         die('Error: ' . mysqli_error($con));
     }
 
-    $query = mysqli_query($con, "SELECT * FROM m_rooms_floors;");
-    if ($query) {
-        while ($row = mysqli_fetch_assoc($query)) {
-            $result['rooms_floors'][] = $row;
-        }
-    } else {
-        die('Error: ' . mysqli_error($con));
-    }
-
-    $query = mysqli_query($con, "SELECT * FROM m_rooms_per_floor;");
-    if ($query) {
-        while ($row = mysqli_fetch_assoc($query)) {
-            $result['rooms_per_floor'][] = $row;
-        }
-    } else {
-        die('Error: ' . mysqli_error($con));
-    }
-    $query = mysqli_query($con, "SELECT * FROM m_meter_rate;");
-    if ($query) {
-        while ($row = mysqli_fetch_assoc($query)) {
-            $result['meter_rate'][] = $row;
-        }
-    } else {
-        die('Error: ' . mysqli_error($con));
-    }
 
     $response = $result; // Store the result in $response
 } else {

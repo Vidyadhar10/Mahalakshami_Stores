@@ -1,9 +1,14 @@
 <?php
 include '../connection.php';
 
-$query = mysqli_query($con, "SELECT * FROM requests AS rq
+$query = mysqli_query($con, "SELECT rm.*,
+                                urs.Mobile_No, urs.Name,
+                                rq.*
+                                FROM requests AS rq
                                 INNER JOIN users AS urs
                                 ON rq.userID = urs.ID
+                                INNER JOIN rooms as rm
+                                ON rm.ID = rq.room_id
                                 WHERE rq.isRequested = 1
                                 ORDER BY rq.ID DESC;");
 if (!$query) {
@@ -11,7 +16,7 @@ if (!$query) {
 }
 if (mysqli_num_rows($query) > 0) {
     while ($row = $query->fetch_assoc()) {
-        $row['floorInwords'] = generateFloorInWords($row['floor_num']);
+        $row['floorInwords'] = generateFloorInWords($row['floor']);
         $result[] = $row;
     }
 } else {

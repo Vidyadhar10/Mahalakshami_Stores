@@ -14,10 +14,6 @@ if (isset($_POST['mobnumber']) && isset($_POST['PasswordText'])) {
     $result = mysqli_query($con, "INSERT INTO `users` (`Mobile_No`,`Password`)
     VALUES ('$uname','$pass')");
 
-
-
-
-
     if ($result) {
         $getID = mysqli_query($con, "SELECT ID FROM users ORDER BY ID DESC LIMIT 1;");
         $row = mysqli_fetch_assoc($getID);
@@ -29,6 +25,25 @@ if (isset($_POST['mobnumber']) && isset($_POST['PasswordText'])) {
                 "success" => true
             );
         }
+    } else {
+        $response = array(
+            "success" => false,
+            "message" => "mobile num already exists!"
+        );
+        die('Error: ' . mysqli_error($con));
+    }
+} elseif (isset($_POST['admin_mob_number']) && isset($_POST['admin_pass_text'])) {
+    $uname = $_POST['admin_mob_number'];
+    $pas = $_POST['admin_pass_text'];
+    $pass = md5($pas);
+
+    $result = mysqli_query($con, "INSERT INTO `users` (`Mobile_No`,`Password`,`isAdmin`)
+    VALUES ('$uname','$pass',1)");
+
+    if ($result) {
+        $response = array(
+            "success" => true
+        );
     } else {
         $response = array(
             "success" => false,

@@ -16,6 +16,10 @@
             "mar": "टेनंटस",
             "eng": "Tenants"
         },
+        "MenubarRequestItem": {
+            "mar": "विनंती",
+            "eng": "Requests"
+        },
         "MenubarSettingsItem": {
             "mar": "सेटीन्ग्स",
             "eng": "Settings"

@@ -1,6 +1,9 @@
 <?php
 include '../connection.php';
 
+session_start();
+$userID = $_SESSION['UserID'];
+
 $RoomAddType = $_POST['RoomAddType'];
 $RoomsCount = $_POST['RoomsCount'];
 
@@ -29,6 +32,7 @@ if (count($range) == 2) {
     $queryToGetLastRoomNum = mysqli_query($con, "SELECT room_no
     FROM rooms AS lstRoom
     WHERE floor = '$floorValue'
+    and created_by= $userID
     ORDER BY ID DESC LIMIT 1");
     if ($queryToGetLastRoomNum->num_rows > 0) {
         $row = $queryToGetLastRoomNum->fetch_assoc();

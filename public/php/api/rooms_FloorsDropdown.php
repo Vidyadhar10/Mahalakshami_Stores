@@ -1,8 +1,11 @@
 <?php
 include '../connection.php';
+session_start();
+$userID = $_SESSION['UserID'];
 
 $query = mysqli_query($con, "SELECT *
-FROM m_rooms_floors
+FROM m_default_settings
+WHERE userID=$userID
 ORDER BY ID DESC");
 $floorCount;
 if (mysqli_num_rows($query) > 0) {

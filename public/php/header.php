@@ -23,29 +23,48 @@
     </div>
     <ul class="flex items-center flex-shrink-0 space-x-6">
       <!-- screen size toggler  -->
-      <li class="flex" id="fullScrIcon">
-        <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="togglefullscreen">
-          <template x-if="!dark">
+      <li class="flex" x-data="{ full: true, full: false }" id="fullScrIcon">
+        <button class="rounded-md focus:outline-none focus:shadow-outline-purple" onclick="togglefullscreen()">
+          <template x-if="!full">
             <img src="./images/full-screen.png" height="20" width="20" style="color: #6c2bd9;" alt="" srcset="">
           </template>
-          <template x-if="dark">
+          <template x-if="full">
             <img src="./images/exit-full-screen.png" height="20" width="20" style="color: #6c2bd9;" alt="" srcset="">
           </template>
         </button>
       </li>
       <!-- language toggler  -->
-      <li class="flex" x-data="{ eng: true, mar: false }">
-        <button class="rounded-md focus:outline-none focus:shadow-outline-purple" onclick="ToggleLanguageBtn()">
+      <li class="mt-1 relative" x-data="{ eng: true, mar: false, isLanguageMenuOpen: false }">
+        <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="isLanguageMenuOpen = !isLanguageMenuOpen">
+          <!-- onclick="ToggleLanguageBtn()" -->
           <div class="premium-container">
             <template x-if="eng">
               <img src="./images/lang-eng.png" class="premium" id="languageIconImg" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
             </template>
-            <img src="./images/premium_crown.png" class="premiumIconOnHeader" height="10" width="10" style="color: #6c2bd9;" alt="" srcset="">
           </div>
-          <!-- <template x-if="mar">
-            <img src="./images/lang-mar.png" height="30" width="30" style="color: #6c2bd9;" alt="" srcset="">
-          </template> -->
         </button>
+        <template x-if="isLanguageMenuOpen">
+          <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click.away="isLanguageMenuOpen = false" @keydown.escape="isLanguageMenuOpen = false" style="width: 150px;" class="absolute right-0 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
+            <li class="flex" onclick="ToggleLanguageBtn('eng')">
+              <a id="openModalAnchor" class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="#">
+                <span>English</span><br>
+              </a>
+            </li>
+            <li class="flex" onclick="ToggleLanguageBtn('mar')">
+              <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="#">
+                <span>Marathi</span>
+              </a>
+            </li>
+            <!-- <li class="flex">
+              <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" href="./profile-page.php">
+                <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span>Profile</span>
+              </a>
+            </li> -->
+          </ul>
+        </template>
       </li>
       <!-- Theme toggler -->
       <li class="flex">
@@ -103,7 +122,14 @@
       <!-- Profile menu -->
       <li class="relative">
         <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none" @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
-          <img class="object-cover w-8 h-8 rounded-full" src="<?php echo $propPhoto; ?>" alt="" aria-hidden="true" />
+          <?php
+          if ($propPhoto == 'images/users/user-blank.jpg') {
+            $FilterCss = 'filter: saturate(23) hue-rotate(4739deg) brightness(95%) contrast(94%);';
+          } else {
+            $FilterCss = '';
+          }
+          ?>
+          <img class="object-cover w-8 h-8 rounded-full" src="<?php echo $propPhoto; ?>" style="<?php echo $FilterCss; ?>" alt="" aria-hidden="true" />
         </button>
         <template x-if="isProfileMenuOpen">
           <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu" class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700" aria-label="submenu">

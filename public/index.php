@@ -24,10 +24,61 @@ include './php/handleSession.php';
   <link id="fontStyleForLanguage" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
 
 
+  <style>
+    .loader {
+      width: 20px;
+      height: 20px;
+      border: 3px dotted #FFF;
+      border-style: solid solid dotted dotted;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      animation: rotation 2s linear infinite;
+    }
+
+    .loader::after {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      border: 3px dotted #FF3D00;
+      border-style: solid solid dotted;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: rotationBack 1s linear infinite;
+      transform-origin: center center;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes rotationBack {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(-360deg);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }" id="main-body">
     <!-- Desktop sidebar -->
     <?php
     $ActiveHomeBar = "<span class='absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg' aria-hidden='true'></span>";
@@ -38,6 +89,8 @@ include './php/handleSession.php';
     $RequestActiveTextColor = '';
     $ActiveRoomsBar = '';
     $RoomActiveTextColor = '';
+    $ActiveSupportBar = '';
+    $SupportActiveTextColor = '';
     $ActiveSettingsBar = '';
     $SettingsActiveTextColor = '';
 
@@ -53,6 +106,27 @@ include './php/handleSession.php';
         <section class="adminView">
 
           <div class="container px-6 mx-auto grid">
+            <!-- show popup for location  -->
+            <div class="mt-6 p-3 bg-white popupCard rounded-lg shadow-xs dark:bg-gray-800 relative" id="locationPopUpDiv">
+              <div class="flex items-center justify-between">
+                <div>
+                  <!-- Your notification message -->
+                  <p class="text-sm text-gray-700 dark:text-gray-400">
+                    Kindly update your rental property details(Location*) to enhance user visibility and search experience in your vicinity.
+                  </p>
+                </div>
+                <div>
+                  <!-- open location details add modal -->
+                  <button class="text-green-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white focus:outline-none" id="add-loc-details-Modal">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z">
+                      </path>
+                    </svg>
+                  </button>
+
+                </div>
+              </div>
+            </div>
             <div class="my-6 grid gap-6 mb:grid-cols-2 xl:grid-cols-12">
               <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <div class="flex items-end justify-end w-full">
@@ -62,6 +136,9 @@ include './php/handleSession.php';
                   <button class="px-4 py-2 ml-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'" data-translate="addNewCustomerBtn">
                     <span class="ml-2" aria-hidden="true">+</span> Add new Customer
                   </button>
+                  <!-- <button class="px-4 py-2 ml-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" id="some-element" data-translate="">
+                    <span class="ml-2" aria-hidden="true">+</span> driver
+                  </button> -->
                 </div>
               </div>
             </div>
@@ -146,7 +223,7 @@ include './php/handleSession.php';
                   <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                       <th class="px-4 py-3" data-translate="RTxnSrNo">Sr No</th>
-                      <th class="px-4 py-3" data-translate="RTxnCustAccNo">Account No</th>
+                      <!-- <th class="px-4 py-3" data-translate="RTxnCustAccNo">Account No</th> -->
                       <th class="px-4 py-3" data-translate="RTxnCustRoomNo">Room No</th>
                       <th class="px-4 py-3" data-translate="RTxnCustomerName">customer Name</th>
                       <th class="px-4 py-3" data-translate="RTxnCustAmtPaid">Amount Deposited / Note</th>
@@ -216,6 +293,111 @@ include './php/handleSession.php';
 
             </div>
           </div>
+
+          <!-- add Location details modal start  -->
+          <div x-data="{ isModalOpen: false }" id="addLocationDetailsModal">
+
+            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+              <!-- Modal -->
+              <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0  transform translate-y-1/2" @keydown.escape="closeModal" class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl" role="dialog" id="modal">
+                <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+                <header class="flex justify-end">
+                  <!-- <button class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700 LocationAddModalCloseBtn" aria-label="close">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                      <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                  </button> -->
+                </header>
+                <!-- Modal body -->
+                <div class="mt-4 mb-6">
+                  <!-- Modal title -->
+                  <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300" data-translate="">
+                    Location Details
+                  </p>
+                  <!-- Modal description -->
+                  <form>
+                    <div class="flex flex-wrap -mx-4">
+
+                      <div class="w-full  px-4">
+                        <label class="block text-sm mb-2">
+                          <span class="text-gray-700 dark:text-gray-400" data-translate="">Enter Residency/appartment Name<span class="text-red-600 font-bold">*</span></span>
+                          <input type="text" id="res_name" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="e.g. Anusha Enclave" />
+                          <span class="text-xs text-red-600 dark:text-red-400 error-message hidden" id="res_nameError">
+                            Residency name should not be empty!.
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <label class="block text-sm mb-2 px-4">
+                      <span class="text-gray-700 dark:text-gray-400" data-translate="">Address<span class="text-red-600 font-bold">*</span></span>
+                      <textarea id="Address-input-box" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter address of your residency/appartment."></textarea>
+                      <span class="text-xs text-red-600 dark:text-red-400 error-message hidden" id="Address-input-boxError">
+                        Address should not be empty!.
+                      </span>
+                    </label>
+
+                    <div class="flex flex-wrap -mx-4">
+                      <div class="w-full md:w-1/2 px-4">
+                        <label class="block mb-2 text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">
+                            Select State<span class="text-red-600 font-bold">*</span></span>
+                          </span>
+                          <select id="stateDropDown" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                            <option selected value="">Select</option>
+                            <option value="1">Maharashtra</option>
+                            <option value="2">Karnataka</option>
+                            <option value="3">Gujarat</option>
+                          </select>
+                          <span class="text-xs text-red-600 dark:text-red-400 error-message hidden" id="stateDropDownError">
+                            Please select state!
+                          </span>
+                        </label>
+                      </div>
+                      <div class="w-full md:w-1/2 px-4">
+                        <label class="block text-sm mb-2">
+                          <span class="text-gray-700 dark:text-gray-400" data-translate="">Enter District<span class="text-red-600 font-bold">*</span></span>
+                          <input type="text" id="districtInput" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="e.g. Kolhapur" />
+                          <span class="text-xs text-red-600 dark:text-red-400 error-message hidden" id="districtInputError">
+                            District should not be empty!.
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-wrap -mx-4">
+                      <div class="w-full md:w-1/2 px-4">
+                        <label class="block text-sm mb-2">
+                          <span class="text-gray-700 dark:text-gray-400" data-translate="">Enter City (optional)</span>
+                          <input type="text" id="CityInput" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Hupari" />
+                          <span class="text-xs text-red-600 dark:text-red-400 error-message hidden" id="CityInputError">
+                            City should not be empty!.
+                          </span>
+                        </label>
+                      </div>
+                      <div class="w-full md:w-1/2 px-4">
+                        <label class="block text-sm mb-2">
+                          <span class="text-gray-700 dark:text-gray-400" data-translate="">Enter PIN Code<span class="text-red-600 font-bold">*</span></span>
+                          <input type="text" id="pincodeInput" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="416001" />
+                          <span class="text-xs text-red-600 dark:text-red-400 error-message hidden" id="pincodeInputError">
+                            Pin code should not be empty!.
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+                <footer class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+                  <button id="SaveLocationBtn" class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-translate="">
+                    Save
+                  </button>
+                </footer>
+              </div>
+            </div>
+            <!-- add txn modal end  -->
+          </div>
+
         </section>
         <!-- section for Authorized User -->
         <section class="authorizedUserView">
@@ -343,8 +525,9 @@ include './php/handleSession.php';
 
         <!-- section for unauthorized User -->
         <section class="unauthorizedUserView">
-          <div class="container px-6 mx-auto ">
-            <div class="my-6 p-3 bg-white popupCard rounded-lg shadow-xs dark:bg-gray-800 relative">
+          <div class="container px-6 mx-auto" id="">
+
+            <div class="my-6 p-3 bg-white popupCard rounded-lg shadow-xs dark:bg-gray-800 relative" id="profileNotUpdatedDiv">
               <div class="flex items-center justify-between">
                 <div>
                   <!-- Your notification message -->
@@ -360,298 +543,47 @@ include './php/handleSession.php';
                       </path>
                     </svg>
                   </button>
-                  <!-- Close button with cross mark -->
-                  <button class="text-red-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white focus:outline-none" onclick="closeNotification()">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                      <path d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                      </path>
+                </div>
+              </div>
+            </div>
+
+            <div class="my-6 grid gap-6 mb:grid-cols-2 xl:grid-cols-12">
+              <div class="flex flex-wrap -mx-4  bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <div class="w-full md:w-1/2 px-4 mt-2">
+                  <div class="relative w-full max-w-xl mt-2 mb-2 mr-6 focus-within:text-purple-500">
+                    <div class="absolute inset-y-0 flex items-center pl-2">
+                      <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                      </svg>
+                    </div>
+                    <input id="location-search-input" class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input" type="text" placeholder="Search for residency name/appartment, city, state, address" aria-label="Search" data-translate="" />
+                  </div>
+                </div>
+
+                <div class="w-full md:w-1/2 px-2 mt-2">
+                  <div class="md:hidden text-center mb-2">
+                    <hr>
+                  </div>
+                  <a href="#" id="serachNearbyBtn" data-translate="" class="inline-flex mb-4 mt-2 ml-2 items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+                    <svg class="w-4 h-4 mr-2 -ml-1" fill="currentColor" aria-hidden="true" viewBox="0 0 20 20">
+                      <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
+                      <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
                     </svg>
-                  </button>
+                    <span>Search nearby</span>
+                    <span id="loadingCircleOnSearchNearby" class="loader ml-2" style="display: none;"></span>
+                  </a>
                 </div>
               </div>
             </div>
 
-            <script>
-              function closeNotification() {
-                // Add logic to hide or remove the notification
-                document.querySelector('.popupCard').style.display = 'none';
-              }
-            </script>
+            <div id="residencies_state_wise">
 
-            <h4 class="mb-4 my-6 text-lg font-semibold text-gray-600 dark:text-gray-300" data-translate="AllRooms">
-              All Rooms
-            </h4>
-            <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-
-              <!-- card for rooms  -->
-              <div class="flex flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="w-full  px-4 mb-2">
-                  <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400" data-translate="RoomDetails">
-                    Room Details
-                  </h4>
-
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomNum">
-                    Room Number
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-                <div class="w-full"></div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="RoomType">
-                    Room type
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <span class="px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                    Bachelors
-                  </span>
-                </div>
-                <hr>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" data-translate="Tenant">
-                    Tenant
-                  </p>
-                  <p class="text-lg font-semibold text-red-700 text-gray-700 dark:text-gray-200">
-                    3
-                  </p>
-                </div>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium  text-gray-600 dark:text-gray-400" data-translate="Available">
-                    Available
-                  </p>
-                  <p class="text-lg font-semibold text-green-700 text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-
-                <button onclick="window.location.href='./customer_list.php'" class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'" data-translate="ViewBtn">
-                  View
-                </button>
-              </div>
-              <!-- card for rooms  -->
-              <div class="flex flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="w-full  px-4 mb-2">
-                  <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400">
-                    Room Details
-                  </h4>
-
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Room Number
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-                <div class="w-full"></div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Room type
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <span class="px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                    Bachelors
-                  </span>
-                </div>
-                <hr>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Tenant
-                  </p>
-                  <p class="text-lg font-semibold text-red-700 text-gray-700 dark:text-gray-200">
-                    3
-                  </p>
-                </div>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium  text-gray-600 dark:text-gray-400">
-                    Available
-                  </p>
-                  <p class="text-lg font-semibold text-green-700 text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-
-                <button class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
-                  View
-                </button>
-              </div>
-              <!-- card for rooms  -->
-              <div class="flex flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="w-full  px-4 mb-2">
-                  <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400">
-                    Room Details
-                  </h4>
-
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Room Number
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-                <div class="w-full"></div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Room type
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <span class="px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                    Bachelors
-                  </span>
-                </div>
-                <hr>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Tenant
-                  </p>
-                  <p class="text-lg font-semibold text-red-700 text-gray-700 dark:text-gray-200">
-                    3
-                  </p>
-                </div>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium  text-gray-600 dark:text-gray-400">
-                    Available
-                  </p>
-                  <p class="text-lg font-semibold text-green-700 text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-
-                <button class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
-                  View
-                </button>
-              </div>
-              <!-- card for rooms  -->
-              <div class="flex flex-wrap -mx-4 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="w-full  px-4 mb-2">
-                  <h4 class="mb-2  font-medium text-gray-600 dark:text-gray-400">
-                    Room Details
-                  </h4>
-
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Room Number
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-                <div class="w-full"></div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Room type
-                  </p>
-                </div>
-                <div class="w-1/2 md:w-1/2 px-4 mb-2">
-                  <span class="px-2 py-1 text-sm font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                    Bachelors
-                  </span>
-                </div>
-                <hr>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Tenant
-                  </p>
-                  <p class="text-lg font-semibold text-red-700 text-gray-700 dark:text-gray-200">
-                    3
-                  </p>
-                </div>
-                <div class="w-full md:w-1/2 px-4 mb-2">
-                  <p class="mb-2 text-sm font-medium  text-gray-600 dark:text-gray-400">
-                    Available
-                  </p>
-                  <p class="text-lg font-semibold text-green-700 text-gray-700 dark:text-gray-200">
-                    1
-                  </p>
-                </div>
-
-                <button class="px-4 py-2 ml-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" onclick="window.location.href='./customer_add_form.php'">
-                  View
-                </button>
-              </div>
             </div>
-            <div class="w-full overflow-hidden rounded-lg shadow-xs">
-              <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
-                <span class="flex items-center col-span-3">
-                  Showing 21-30 of 100
-                </span>
-                <span class="col-span-2"></span>
-                <!-- Pagination -->
-                <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-                  <nav aria-label="Table navigation">
-                    <ul class="inline-flex items-center">
-                      <li>
-                        <button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
-                          <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                            <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                          1
-                        </button>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                          2
-                        </button>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
-                          3
-                        </button>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                          4
-                        </button>
-                      </li>
-                      <li>
-                        <span class="px-3 py-1">...</span>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                          8
-                        </button>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                          9
-                        </button>
-                      </li>
-                      <li>
-                        <button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
-                          <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                            <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </span>
-              </div>
-            </div>
+
+
+
+
           </div>
-
         </section>
       </main>
 
@@ -731,17 +663,59 @@ include './php/handleSession.php';
       <div id="preloader" class="preloader-container">
         <div class="preloader"></div>
       </div>
-
-
     </div>
   </div>
+
+  <section id="no-internet-section" style="display: none;">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+      <div class="container flex flex-col items-center px-6 mx-auto">
+        <!-- <svg class="w-12 h-12 mt-8 text-purple-200" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                    clip-rule="evenodd"></path>
+                </svg> -->
+        <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
+        <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="hover" colors="primary:#8930e8,secondary:#a866ee" style="width:100px;height:100px">
+        </lord-icon>
+        <h1 class="text-2xl text-center font-semibold text-gray-700 dark:text-gray-200">
+          No Internet Connection
+        </h1>
+        <p class="text-gray-700 dark:text-gray-300 text-center">
+          Please check your internet connection and try again.
+        </p>
+        <a class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" href="#" onclick="window.location.reload()">
+          Retry
+        </a>
+      </div>
+    </div>
+  </section>
 </body>
+<!-- sweet alert cdn  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 <!-- ajax cdn  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- moment.js cdn  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script src="./pages/js/main.js"></script>
+<!-- driver . js cdn  -->
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
+
+<!-- Add these lines to include Swiper.js -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<!-- Add Swiper.js CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
+<!-- select 2 cdn  -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
   <?php
   if ($_SESSION['AdminStatus'] == 0) {
@@ -750,6 +724,10 @@ include './php/handleSession.php';
       $('.adminView').css('display', 'none')
       $('.unauthorizedUserView').css('display', 'block')
       $('.authorizedUserView').css('display', 'none')
+      UpdateProfileDetailsHighlight();
+      ShowResidenciesCards()
+
+
 
     <?php
     } else {
@@ -770,11 +748,75 @@ include './php/handleSession.php';
     ShowAdminDashbordCardsData()
     ShowRecentTransactionsDetails()
     ShowCustListWithPrevReadingDD('ModalCustomerList')
+    ResidencyDetailsAdded();
 
   <?php
   }
   ?>
   ShowNotifications('<?php echo $userID; ?>');
+</script>
+
+<script>
+  $('#add-loc-details-Modal').on('click', function() {
+    var modalDiv = document.getElementById("addLocationDetailsModal");
+    modalDiv.__x.$data.isModalOpen = true;
+  })
+
+  //save location Details 
+  $('#SaveLocationBtn').on('click', function() {
+    var res_name = $('#res_name');
+    var address_input = $('#Address-input-box');
+    var stateDropDown = $('#stateDropDown');
+    var districtInput = $('#districtInput');
+    var CityInput = $('#CityInput');
+    var pincodeInput = $('#pincodeInput');
+
+    var formTrue = true;
+    var emptyFields = [];
+
+
+    if (res_name.val() === '') {
+      emptyFields.push('res_name');
+    }
+
+    if (address_input.val() === '') {
+      emptyFields.push('Address-input-box');
+    }
+
+    if (stateDropDown.val() === '') {
+      emptyFields.push('stateDropDown');
+    }
+
+    if (districtInput.val() === '') {
+      emptyFields.push('districtInput');
+    }
+
+    if (pincodeInput.val() === '') {
+      emptyFields.push('pincodeInput');
+    }
+
+    $('.error-message').addClass('hidden');
+
+    if (emptyFields.length > 0) {
+      // Display error messages for empty fields
+      emptyFields.forEach(function(field) {
+        $('#' + field + 'Error').removeClass('hidden');
+      });
+      formTrue = false;
+    }
+
+    if (formTrue) {
+      //check if database has the room on the floor available to add OR
+      // the room number already exist on the floor
+      SaveLocationDetails();
+    }
+  })
+</script>
+
+<script>
+  // $(document).ready(function() {
+  //   $('#location-search-input').select2();
+  // });
 </script>
 
 </html>

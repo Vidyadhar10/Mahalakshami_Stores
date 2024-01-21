@@ -1,5 +1,7 @@
 <?php
 include '../connection.php';
+session_start();
+$userID = $_SESSION['UserID'];
 
 $uid = $_POST['userID'];
 $task = $_POST['task'];
@@ -9,6 +11,7 @@ if ($task == 'approve') {
                                      SET users.isAuthorized = 1,
                                          users.Room_No = requests.room_num,
                                          users.Floor_No = requests.floor_num,
+                                         users.created_by_or_approved_by = $userID,
                                          requests.isRequested = 0
                                      WHERE users.ID = requests.userID
                                      AND users.ID = $uid;");

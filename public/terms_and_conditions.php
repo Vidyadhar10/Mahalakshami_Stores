@@ -26,7 +26,7 @@ include './php/handleSession.php';
 </head>
 
 <body>
-  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }" id="main-body">
     <!-- Desktop sidebar -->
     <?php
     $ActiveHomeBar = '';
@@ -40,6 +40,9 @@ include './php/handleSession.php';
 
     $ActiveRequestBar = '';
     $RequestActiveTextColor = '';
+
+    $ActiveSupportBar = '';
+    $SupportActiveTextColor = '';
 
     $ActiveSettingsBar = '';
     $SettingsActiveTextColor = '';
@@ -103,8 +106,34 @@ include './php/handleSession.php';
       </div>
     </div>
   </div>
+
+  <!-- no internet section  -->
+  <section id="no-internet-section" style="display: none;">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+      <div class="container flex flex-col items-center px-6 mx-auto">
+        <!-- <svg class="w-12 h-12 mt-8 text-purple-200" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                    clip-rule="evenodd"></path>
+                </svg> -->
+        <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
+        <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="hover" colors="primary:#8930e8,secondary:#a866ee" style="width:100px;height:100px">
+        </lord-icon>
+        <h1 class="text-2xl text-center font-semibold text-gray-700 dark:text-gray-200">
+          No Internet Connection
+        </h1>
+        <p class="text-gray-700 dark:text-gray-300 text-center">
+          Please check your internet connection and try again.
+        </p>
+        <a class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" href="#" onclick="window.location.reload()">
+          Retry
+        </a>
+      </div>
+    </div>
+  </section>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 <script src="./pages/js/main.js"></script>
 
 <script>

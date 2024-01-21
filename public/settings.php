@@ -58,7 +58,7 @@ include './php/handleSession.php';
 </head>
 
 <body>
-  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }" id="main-body">
     <!-- Desktop sidebar -->
     <?php
     $ActiveHomeBar = '';
@@ -69,6 +69,8 @@ include './php/handleSession.php';
     $RequestActiveTextColor = '';
     $ActiveRoomsBar = "";
     $RoomActiveTextColor = '';
+    $ActiveSupportBar = '';
+    $SupportActiveTextColor = '';
     $ActiveSettingsBar = "<span class='absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg' aria-hidden='true'></span>";
     $SettingsActiveTextColor = 'text-gray-800';
     include './php/header-asidebar.php';
@@ -84,11 +86,11 @@ include './php/handleSession.php';
             <!-- Tabs -->
             <div class="mb-4 my-6 ">
               <ul class="flex text-sm text-semibold font-medium text-gray-500 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <li x-on:click="activeTab = 1" :class="{ 'bg-gray-200': activeTab === 1 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;" data-translate="SettingsRoomTab">
-                  Room
+                <li x-on:click="activeTab = 1" :class="{ 'bg-gray-200': activeTab === 1 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;" data-translate="">
+                  Location And T&C*
                 </li>
-                <li x-on:click="activeTab = 2" :class="{ 'bg-gray-200': activeTab === 2 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;" data-translate="SettingsTenantTab">
-                  Tenant
+                <li x-on:click="activeTab = 2" :class="{ 'bg-gray-200': activeTab === 2 }" class="py-2 px-4 rounded-tl-lg tab" style="cursor: pointer;" data-translate="SettingsRoomTab">
+                  Room
                 </li>
                 <li x-on:click="activeTab = 3" :class="{ 'bg-gray-200': activeTab === 3 }" class="py-2 px-4 rounded-tr-lg tab" style="cursor: pointer;" data-translate="SettingsMeterTab">
                   Meter
@@ -98,6 +100,13 @@ include './php/handleSession.php';
 
             <!-- Tab Content -->
             <div x-show="activeTab === 1" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <!-- Form 2 -->
+              <h1 class="text-xl font-semibold mb-4">Form 2</h1>
+              <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button>
+              <!-- Add your form fields here -->
+            </div>
+
+            <div x-show="activeTab === 2" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <!-- Form 1 -->
               <h1 class="text-xl font-semibold mb-4 dark:text-gray-300" data-translate="SettingsCardHeader">Room Settings</h1>
               <!-- Add your form fields here -->
@@ -130,31 +139,6 @@ include './php/handleSession.php';
                 </div>
 
                 <div class="w-full md:w-1/2 px-4">
-                  <span class="px-4 text-gray-700 dark:text-gray-400" data-translate="SettingsAddRoomDepositAmt">Add Room Deposit Amount<span class="text-red-600 font-bold">*</span></span>
-                  <div class="flex flex-wrap -mx-4">
-                    <div class="w-full md:w-1/2 px-4">
-                      <label class="block text-sm mb-2">
-                        <input type="text" maxlength="5" id="RentAmtInputBox" oninput="InputNumberOnly(this.id)" style="text-align: right;" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="2500" />
-                      </label>
-                    </div>
-
-                    <div class="w-full md:w-1/2 px-4">
-                      <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" data-translate="SettingsAddRoomDepositAmtBtn" id="AddUpdateDepositBtn">Add</button>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-4  mb-4">
-                    <div class="w-full md:w-1/2 px-4">
-                      <label class="block text-sm mb-2">
-                        <span class=" text-gray-700 dark:text-gray-400" data-translate="SettingsCurrentDepositAmt">Current Deposit Ammount for Single room :</span>
-                      </label>
-                    </div>
-                    <div class="w-full md:w-1/2 px-4" id="fixedDepositAmt">
-                      <span class="px-2 py-1  mt-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                        2500
-                      </span>
-                    </div>
-                  </div>
-                  <!-- <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button> -->
                 </div>
               </div>
 
@@ -220,12 +204,7 @@ include './php/handleSession.php';
 
             </div>
 
-            <div x-show="activeTab === 2" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              <!-- Form 2 -->
-              <h1 class="text-xl font-semibold mb-4">Form 2</h1>
-              <button @click="isModalOpen = true" class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4">Open Modal</button>
-              <!-- Add your form fields here -->
-            </div>
+
 
             <div x-show="activeTab === 3" class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <!-- Meter settings 3 -->
@@ -315,12 +294,38 @@ include './php/handleSession.php';
 
     </div>
   </div>
+
+  <!-- no internet section  -->
+  <section id="no-internet-section" style="display: none;">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+      <div class="container flex flex-col items-center px-6 mx-auto">
+        <!-- <svg class="w-12 h-12 mt-8 text-purple-200" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                    clip-rule="evenodd"></path>
+                </svg> -->
+        <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
+        <lord-icon src="https://cdn.lordicon.com/pbbsmkso.json" trigger="hover" colors="primary:#8930e8,secondary:#a866ee" style="width:100px;height:100px">
+        </lord-icon>
+        <h1 class="text-2xl text-center font-semibold text-gray-700 dark:text-gray-200">
+          No Internet Connection
+        </h1>
+        <p class="text-gray-700 dark:text-gray-300 text-center">
+          Please check your internet connection and try again.
+        </p>
+        <a class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" href="#" onclick="window.location.reload()">
+          Retry
+        </a>
+      </div>
+    </div>
+  </section>
 </body>
 <!-- sweet alert cdn  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <!-- jquery cdn  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 <script src="./pages/js/main.js"></script>
 <script src="./pages/js/validation.js"></script>
@@ -397,30 +402,5 @@ include './php/handleSession.php';
   })
   ShowNotifications('<?php echo $userID; ?>');
 </script>
-<!-- <script>
-  $(document).ready(function() {
-    // Initial modal state
-    let isModalOpen = false;
-
-    // Function to open the modal
-    function openModal() {
-      isModalOpen = true;
-      $('#modal').show(); // Show the modal
-    }
-
-    // Function to close the modal
-    function closeModal() {
-      isModalOpen = false;
-      $('#modal').hide(); // Hide the modal
-    }
-
-    // Add an event listener to handle modal opening
-    $('#openModalButton').click(openModal);
-
-    // Add an event listener to handle modal closing
-    $('#modalCloseOnClick').click(closeModal);
-  });
-</script> -->
-
 
 </html>
